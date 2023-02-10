@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <title>Names in the Database</title>
+  </head>
+  <body>
+    <h1>Names in the Database</h1>
+    <table>
+      <tr>
+        <th>Name</th>
+      </tr>
+      {% for row in rows %}
+      <tr>
+        <td>{{ row[0] }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>
