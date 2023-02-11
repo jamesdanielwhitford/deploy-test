@@ -4,6 +4,11 @@ from flask import Flask, render_template, request
 # setup environment variables
 import os
 
+# Development
+# from dotenv import load_dotenv
+# load_dotenv()
+
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -20,6 +25,15 @@ def add_name():
     connection.close()
     return render_template('add-name-success.html', name=name)
 
+@app.route('/delete-name', methods=['POST'])
+def delete_name():
+    name = request.form['name']
+    connection = psycopg2.connect(os.environ.get("DATABASE_URL"))
+    cursor = connection.cursor()
+    cursor.execute("DELETE FROM users WHERE name = %s", (name,))
+    connection.commit()
+    connection.close()
+    return render_template('add-name-success.html', name=name)
 
 @app.route('/names')
 def names():
