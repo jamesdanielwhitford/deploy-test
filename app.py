@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('hardle.html')
 
 @app.route('/add-name', methods=['POST'])
 def add_name():

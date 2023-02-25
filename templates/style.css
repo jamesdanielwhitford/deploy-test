@@ -1,0 +1,36 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+#word {
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#guesses {
+  margin-bottom: 10px;
+}
+
+#guesses span {
+  margin-right: 10px;
+}
+
+#message {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: red;
+}
+
+input[type='text'] {
+  font-size: 1.5em;
+}
+
+button {
+  font-size: 1.5em;
+  margin-left: 10px;
+}
