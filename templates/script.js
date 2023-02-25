@@ -274,6 +274,12 @@ function guess() {
     return;
   }
 
+  if (guess.length !== dailyWord.length) {
+    document.getElementById('message').textContent =
+      'Your guess must be 4 letters!';
+    return;
+  }
+
   // Add the guess to the user's list of guesses
   userGuesses.push(guess);
 
