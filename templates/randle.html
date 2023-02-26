@@ -531,6 +531,27 @@
           return;
         }
 
+        // swear check
+        let swears = [
+          'fuck',
+          'shit',
+          'cunt',
+          'poes',
+          'dick',
+          'cock',
+          'poop',
+          'slut',
+          'kike',
+          'coon',
+          'koon',
+          'poon',
+        ];
+
+        if (swears.includes(guess)) {
+          document.getElementById('message').textContent = 'No swearing! 🐜';
+          return;
+        }
+
         // Add the guess to the user's list of guesses
         userGuesses.push(guess);
 
