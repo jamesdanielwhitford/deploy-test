@@ -10,6 +10,7 @@
 
     h1 {
       text-align: center;
+      color: #000000;
     }
 
     #word {
@@ -76,6 +77,30 @@
       content: '';
       width: 100%;
       display: inline-block;
+    }
+    @media only screen and (max-width: 600px) {
+      body {
+        font-size: 14px;
+      }
+
+      #word {
+        font-size: 1.5em;
+      }
+
+      #guessInput {
+        font-size: 1.2em;
+        width: 70%;
+      }
+
+      button {
+        font-size: 1.2em;
+        width: 30%;
+      }
+
+      ul {
+        width: 90%;
+        padding-top: 30px;
+      }
     }
   </style>
   <body>
