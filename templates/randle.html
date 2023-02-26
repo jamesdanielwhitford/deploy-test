@@ -421,10 +421,21 @@
         '*'
       );
 
+      const input = document.getElementById('guessInput');
+      input.addEventListener('keydown', (event) => {
+        if (event.keyCode === 13) {
+          event.preventDefault(); // prevent the default action of submitting the form
+          guess();
+        }
+      });
+
       // Handle a user guess
       function guess() {
         // Get the user's guess
         let guess = document.getElementById('guessInput').value.toLowerCase();
+
+        // strip the empty space from the end of the guess
+        guess = guess.trim();
 
         // Clear the guess input field
         document.getElementById('guessInput').value = '';
@@ -459,8 +470,11 @@
           document.getElementById(
             'message'
           ).textContent = `You win! You guessed the word in ${
-            8 - guessesRemaining
+            9 - guessesRemaining
           } guesses!`;
+          // change message color to green
+          document.getElementById('message').style.color = 'green';
+          document.getElementById('word').textContent = dailyWord;
           disableInput();
           return;
         }
