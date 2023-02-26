@@ -5,6 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <style>
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 50px;
+      padding: 0 20px;
+      background-color: #fff;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      margin: 0;
+      margin-left: 10px;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    #guessButton {
+      margin-left: 10px;
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #08be27;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #randleButton {
+      margin-left: 10px;
+      margin-top: 50px;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #2196f3;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #rules {
+      margin-left: 10px;
+      padding: 10px 10px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #2196f3;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
     body {
       font-family: Arial, sans-serif;
     }
@@ -106,54 +167,76 @@
 
       button {
         font-size: 1.2em;
-        width: 30%;
       }
 
       ul {
         width: 90%;
         padding-top: 30px;
       }
+
+      /* Overlay styles */
+      .overlay {
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+      }
+
+      /* Modal styles */
+      .modal {
+        position: fixed;
+        z-index: 2;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        display: none;
+      }
+
+      .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      }
     }
   </style>
   <body>
     <div id="game">
-      <h1>Welcome to Hardle!</h1>
+      <div class="header-container">
+        <h1>Welcome to Hardle!</h1>
+        <button onclick="showAlert()" id="rules">?</button>
+      </div>
+
       <h2>Guess the four letter word</h2>
       <p id="word"></p>
       <p id="guesses"></p>
       <p id="message"></p>
-      <div class="center">
-        <input type="text" id="guessInput" />
-        <button onclick="guess()">Guess</button>
+      <div class="center" style="display: flex; flex-direction: column">
+        <input type="text" id="guessInput" placeholder="Guess here" />
+        <button id="guessButton" onclick="guess()">Guess!</button>
       </div>
-      <ul>
-        <li>Every day, a new four-letter word is chosen for you to guess.</li>
-        <li>
-          You have eight chances to guess the word correctly before you lose the
-          game.
-        </li>
-        <li>
-          After each guess, you'll receive a score that indicates how many
-          letters in your guess are also in the daily word.
-        </li>
-        <li>
-          If the daily word contains a double letter, such as "book" or "ball",
-          and you guess a word that contains the same double letter, such as
-          "bell", then the double letter will be counted as two separate
-          matches.
-        </li>
-        <li>
-          Your previous guesses and scores will be displayed so you can keep
-          track of your progress.
-        </li>
-      </ul>
+
       <form action="/randle" method="get" id="form">
-        <input type="submit" value="Play Randle instead!" />
+        <input type="submit" id="randleButton" value="Play Randle instead!" />
       </form>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
     <script>
+      function showAlert() {
+        alert(
+          `1. Every day, a new four-letter word is chosen for you to guess.\n2. You have eight chances to guess the word correctly before you lose the game.\n3. After each guess, you'll receive a score that indicates how many letters in your guess are also in the daily word.\n4. If the daily word contains a double letter, like "ball", and you guess a word that contains the same double letter, like "bell", then the double letter will be counted as two separate matches.\n5. Your previous guesses and scores will be displayed so you can keep track of your progress.`
+        );
+      }
+
       // Define the possible words to be guessed
       const words = [
         'that',
