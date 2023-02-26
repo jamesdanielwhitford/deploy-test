@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>hardle</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <style>
     body {
@@ -83,6 +84,11 @@
         font-size: 14px;
       }
 
+      div {
+        width: 90%;
+        margin: auto;
+      }
+
       #word {
         font-size: 1.5em;
       }
@@ -104,34 +110,38 @@
     }
   </style>
   <body>
-    <h1>Guess the four letter word</h1>
-    <p id="word"></p>
-    <p id="guesses"></p>
-    <p id="message"></p>
-    <div class="center">
-      <input type="text" id="guessInput" />
-      <button onclick="guess()">Guess</button>
+    <div id="game">
+      <h1>Guess the four letter word</h1>
+      <p id="word"></p>
+      <p id="guesses"></p>
+      <p id="message"></p>
+      <div class="center">
+        <input type="text" id="guessInput" />
+        <button onclick="guess()">Guess</button>
+      </div>
+      <ul>
+        <li>Every day, a new four-letter word is chosen for you to guess.</li>
+        <li>
+          You have eight chances to guess the word correctly before you lose the
+          game.
+        </li>
+        <li>
+          After each guess, you'll receive a score that indicates how many
+          letters in your guess are also in the daily word.
+        </li>
+        <li>
+          If the daily word contains a double letter, such as "book" or "ball",
+          and you guess a word that contains the same double letter, such as
+          "bell", then the double letter will be counted as two separate
+          matches.
+        </li>
+        <li>
+          Your previous guesses and scores will be displayed so you can keep
+          track of your progress.
+        </li>
+      </ul>
     </div>
-    <ul>
-      <li>Every day, a new four-letter word is chosen for you to guess.</li>
-      <li>
-        You have eight chances to guess the word correctly before you lose the
-        game.
-      </li>
-      <li>
-        After each guess, you'll receive a score that indicates how many letters
-        in your guess are also in the daily word.
-      </li>
-      <li>
-        If the daily word contains a double letter, such as "book" or "ball",
-        and you guess a word that contains the same double letter, such as
-        "bell", then the double letter will be counted as two separate matches.
-      </li>
-      <li>
-        Your previous guesses and scores will be displayed so you can keep track
-        of your progress.
-      </li>
-    </ul>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
     <script>
       // Define the possible words to be guessed
