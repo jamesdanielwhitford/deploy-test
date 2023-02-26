@@ -15,6 +15,10 @@ app = Flask(__name__)
 def index():
     return render_template('hardle.html')
 
+@app.route('/randle')
+def randle():
+    return render_template('randle.html')
+
 @app.route('/add-name', methods=['POST'])
 def add_name():
     name = request.form['name']

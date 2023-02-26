@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>hardle</title>
+    <title>randle</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <style>
@@ -14,6 +14,7 @@
       align-items: center;
       flex-direction: column;
     }
+
     h1,
     h2 {
       text-align: center;
@@ -117,7 +118,7 @@
   </style>
   <body>
     <div id="game">
-      <h1>Welcome to Hardle!</h1>
+      <h1>Welcome to Randle!</h1>
       <h2>Guess the four letter word</h2>
       <p id="word"></p>
       <p id="guesses"></p>
@@ -127,7 +128,10 @@
         <button onclick="guess()">Guess</button>
       </div>
       <ul>
-        <li>Every day, a new four-letter word is chosen for you to guess.</li>
+        <li>
+          Every time you refresh the page, a new four-letter word is chosen for
+          you to guess.
+        </li>
         <li>
           You have eight chances to guess the word correctly before you lose the
           game.
@@ -147,8 +151,8 @@
           track of your progress.
         </li>
       </ul>
-      <form action="/randle" method="get" id="form">
-        <input type="submit" value="Play Randle instead!" />
+      <form action="/" method="get" id="form">
+        <input type="submit" value="Play Hardle instead!" />
       </form>
     </div>
 
@@ -399,10 +403,9 @@
       ];
 
       function getDailyWord(words) {
-        const seed = Math.floor(Date.now() / (24 * 60 * 60 * 1000)); // Use the day of the year as a seed
-        const rng = new Math.seedrandom(seed); // Create a random number generator with the seed
-        return words[Math.floor(rng() * words.length)]; // Use the random number to select a word from the list
+        return words[Math.floor(Math.random() * words.length)];
       }
+
       // Choose a random word from the list
       let dailyWord = getDailyWord(words);
 
@@ -456,7 +459,7 @@
           document.getElementById(
             'message'
           ).textContent = `You win! You guessed the word in ${
-            9 - guessesRemaining
+            8 - guessesRemaining
           } guesses!`;
           disableInput();
           return;
