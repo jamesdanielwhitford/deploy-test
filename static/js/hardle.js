@@ -1,11 +1,5 @@
 import { words, swears } from './words.js';
 
-function showAlert() {
-  alert(
-    `1. Every day, a new four-letter word is chosen for you to guess.\n2. You have eight chances to guess the word correctly before you lose the game.\n3. After each guess, you'll receive a score that indicates how many letters in your guess are also in the daily word.\n4. If the daily word contains a double letter, like "ball", and you guess a word that contains the same double letter, like "bell", then the double letter will be counted as two separate matches.\n5. Your previous guesses and scores will be displayed so you can keep track of your progress.`
-  );
-}
-
 function getDailyWord(words) {
   const seed = Math.floor(Date.now() / (24 * 60 * 60 * 1000)); // Use the day of the year as a seed
   const rng = new Math.seedrandom(seed); // Create a random number generator with the seed
