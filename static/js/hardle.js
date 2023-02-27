@@ -1,246 +1,10 @@
-// Define the possible words to be guessed
-const words = [
-  'that',
-  'what',
-  'have',
-  'your',
-  'know',
-  'with',
-  'just',
-  'here',
-  'they',
-  'like',
-  'come',
-  'well',
-  'yeah',
-  'will',
-  'want',
-  'good',
-  'from',
-  'when',
-  'time',
-  'okay',
-  'back',
-  'look',
-  'them',
-  'were',
-  'take',
-  'then',
-  'been',
-  'tell',
-  'some',
-  'didn',
-  'need',
-  'more',
-  'down',
-  'make',
-  'very',
-  'only',
-  'over',
-  'love',
-  'mean',
-  'said',
-  'give',
-  'even',
-  'much',
-  'sure',
-  'help',
-  'into',
-  'find',
-  'life',
-  'work',
-  'must',
-  'wait',
-  'stop',
-  'call',
-  'talk',
-  'away',
-  'than',
-  'home',
-  'last',
-  'told',
-  'keep',
-  'long',
-  'name',
-  'ever',
-  'feel',
-  'made',
-  'done',
-  'nice',
-  'girl',
-  'fine',
-  'kind',
-  'stay',
-  'left',
-  'came',
-  'hear',
-  'same',
-  'show',
-  'else',
-  'kill',
-  'next',
-  'care',
-  'went',
-  'dead',
-  'many',
-  'mind',
-  'wasn',
-  'best',
-  'hell',
-  'real',
-  'baby',
-  'room',
-  'move',
-  'most',
-  'seen',
-  'live',
-  'both',
-  'once',
-  'head',
-  'used',
-  'idea',
-  'knew',
-  'hold',
-  'door',
-  'such',
-  'also',
-  'took',
-  'wife',
-  'meet',
-  'hard',
-  'gone',
-  'play',
-  'open',
-  'hope',
-  'face',
-  'lost',
-  'turn',
-  'case',
-  'true',
-  'soon',
-  'each',
-  'year',
-  'hand',
-  'part',
-  'late',
-  'gave',
-  'damn',
-  'five',
-  'shut',
-  'aren',
-  'easy',
-  'deal',
-  'mine',
-  'body',
-  'dear',
-  'four',
-  'word',
-  'hurt',
-  'wish',
-  'week',
-  'rest',
-  'fire',
-  'game',
-  'side',
-  'read',
-  'able',
-  'lady',
-  'shot',
-  'city',
-  'walk',
-  'town',
-  'high',
-  'half',
-  'died',
-  'cool',
-  'free',
-  'whoa',
-  'team',
-  'line',
-  'send',
-  'full',
-  'save',
-  'hate',
-  'food',
-  'fact',
-  'lord',
-  'pick',
-  'lose',
-  'king',
-  'plan',
-  'sort',
-  'safe',
-  'book',
-  'sent',
-  'hour',
-  'john',
-  'sick',
-  'poor',
-  'past',
-  'glad',
-  'hair',
-  'jack',
-  'luck',
-  'fast',
-  'cold',
-  'seem',
-  'hang',
-  'till',
-  'felt',
-  'sign',
-  'pull',
-  'beat',
-  'date',
-  'fall',
-  'song',
-  'road',
-  'calm',
-  'drop',
-  'step',
-  'land',
-  'feet',
-  'dude',
-  'none',
-  'pain',
-  'kept',
-  'wake',
-  'busy',
-  'ship',
-  'sell',
-  'dark',
-  'ride',
-  'born',
-  'film',
-  'wear',
-  'hasn',
-  'sing',
-  'blue',
-  'near',
-  'rock',
-  'paid',
-  'ring',
-  'bill',
-  'york',
-  'army',
-  'lead',
-  'fair',
-  'fool',
-  'club',
-  'test',
-  'join',
-  'fear',
-  'mike',
-  'area',
-  'ball',
-  'boat',
-  'gold',
-  'fish',
-  'mark',
-  'fell',
-  'deep',
-  'star',
-  'hide',
-];
+import { words, swears } from './words.js';
+
+function showAlert() {
+  alert(
+    `1. Every day, a new four-letter word is chosen for you to guess.\n2. You have eight chances to guess the word correctly before you lose the game.\n3. After each guess, you'll receive a score that indicates how many letters in your guess are also in the daily word.\n4. If the daily word contains a double letter, like "ball", and you guess a word that contains the same double letter, like "bell", then the double letter will be counted as two separate matches.\n5. Your previous guesses and scores will be displayed so you can keep track of your progress.`
+  );
+}
 
 function getDailyWord(words) {
   const seed = Math.floor(Date.now() / (24 * 60 * 60 * 1000)); // Use the day of the year as a seed
@@ -259,10 +23,21 @@ let userGuesses = [];
 // Set up the initial display
 document.getElementById('word').textContent = dailyWord.replace(/./g, '*');
 
+const input = document.getElementById('guessInput');
+input.addEventListener('keydown', (event) => {
+  if (event.keyCode === 13) {
+    event.preventDefault(); // prevent the default action of submitting the form
+    guess();
+  }
+});
+
 // Handle a user guess
 function guess() {
   // Get the user's guess
   let guess = document.getElementById('guessInput').value.toLowerCase();
+
+  // strip the empty space from the end of the guess
+  guess = guess.trim();
 
   // Clear the guess input field
   document.getElementById('guessInput').value = '';
@@ -280,6 +55,13 @@ function guess() {
     return;
   }
 
+  // check if guess is in swears
+
+  if (swears.includes(guess)) {
+    document.getElementById('message').textContent = 'No swearing! 🐜';
+    return;
+  }
+
   // Add the guess to the user's list of guesses
   userGuesses.push(guess);
 
@@ -294,7 +76,14 @@ function guess() {
 
   // Check if the guess is correct
   if (guess === dailyWord) {
-    document.getElementById('message').textContent = 'You win!';
+    document.getElementById(
+      'message'
+    ).textContent = `You win! You guessed the word in ${
+      9 - guessesRemaining
+    } guesses!`;
+    // change message color to green
+    document.getElementById('message').style.color = 'green';
+    document.getElementById('word').textContent = dailyWord;
     disableInput();
     return;
   }
