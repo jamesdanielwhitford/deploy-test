@@ -254,5 +254,3 @@ export const swears = [
   'tits',
   'pube',
 ];
-
-// export words and swears
