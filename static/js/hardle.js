@@ -63,10 +63,10 @@ function guess() {
 
   // check if guess is in swears
 
-  if (swears.includes(guess)) {
-    document.getElementById('message').textContent = 'No swearing! 🐜';
-    return;
-  }
+  // if (swears.includes(guess)) {
+  //   document.getElementById('message').textContent = 'No swearing! 🐜';
+  //   return;
+  // }
 
   // Add the guess to the user's list of guesses
   userGuesses.push(guess);
