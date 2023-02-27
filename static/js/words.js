@@ -234,23 +234,3 @@ export const words = [
   'star',
   'hide',
 ];
-
-// swear check
-export const swears = [
-  'fuck',
-  'shit',
-  'cunt',
-  'poes',
-  'dick',
-  'cock',
-  'poop',
-  'slut',
-  'kike',
-  'coon',
-  'koon',
-  'poon',
-  'arse',
-  'piss',
-  'tits',
-  'pube',
-];

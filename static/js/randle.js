@@ -1,4 +1,4 @@
-import { words, swears } from './words.js';
+import { words } from './words.js';
 
 function getDailyWord(words) {
   return words[Math.floor(Math.random() * words.length)];

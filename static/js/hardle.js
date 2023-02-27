@@ -1,4 +1,4 @@
-import { words, swears } from './words.js';
+import { words } from './words.js';
 
 function getDailyWord(words) {
   const seed = Math.floor(Date.now() / (24 * 60 * 60 * 1000)); // Use the day of the year as a seed
