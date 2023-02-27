@@ -63,9 +63,12 @@ function guess() {
   for (let i = 0; i < userGuesses.length; i++) {
     let guessText = userGuesses[i];
     let guessScore = scoreGuess(guessText);
-    guessList += guessText + ' (' + guessScore + ')\n';
+    guessList += guessText + '(' + guessScore + ')\n';
+    if (i == 3) {
+      guessList += '<br/><br/>';
+    }
   }
-  document.getElementById('guesses').textContent = guessList;
+  document.getElementById('guesses').innerHTML = guessList;
 
   // Check if the guess is correct
   if (guess === dailyWord) {
