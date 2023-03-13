@@ -70,7 +70,7 @@ function guess() {
   // Add the guess to the user's list of guesses
   userGuesses.push(guess);
 
-  dailyGuessesAndScores = [];
+  let dailyGuessesAndScores = [];
 
   // Update the list of guesses on the screen
   let guessList = '';
@@ -85,7 +85,7 @@ function guess() {
   }
   document.getElementById('guesses').innerHTML = guessList;
 
-  updateSession('dailyGuesses', dailyGuessesAndScores);
+  // updateSession('dailyGuesses', dailyGuessesAndScores);
 
   // Check if the guess is correct
   if (guess === dailyWord) {
@@ -134,20 +134,20 @@ function scoreGuess(guess) {
   return score;
 }
 
-function updateSession(key, value) {
-  $.ajax({
-    type: 'POST',
-    url: '/update_session',
-    contentType: 'application/json',
-    data: JSON.stringify({ key: key, value: value }),
-    success: function (response) {
-      console.log(response);
-    },
-    error: function (response) {
-      console.error(response);
-    },
-  });
-}
+// function updateSession(key, value) {
+//   $.ajax({
+//     type: 'POST',
+//     url: '/update_session',
+//     contentType: 'application/json',
+//     data: JSON.stringify({ key: key, value: value }),
+//     success: function (response) {
+//       console.log(response);
+//     },
+//     error: function (response) {
+//       console.error(response);
+//     },
+//   });
+// }
 
 // Get all the letter buttons
 const letterButtons = document.querySelectorAll('.letter-button');

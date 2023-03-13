@@ -12,7 +12,7 @@
   <body>
     <div id="game">
       <div class="header-container">
-        <h1>Welcome to Randle!</h1>
+        <h1>Randle!</h1>
         <form action="/" method="get" id="form">
           <input type="submit" id="randleButton" value="Hardle!" />
         </form>
@@ -29,12 +29,14 @@
       <p id="word"></p>
       <p id="guesses"></p>
       <p id="message"></p>
+
       <div class="center" style="display: flex; flex-direction: row">
         <input type="text" id="guessInput" placeholder="Guess here" />
         <button id="guessButton" onclick="guess()">Go!</button>
       </div>
 
       <br />
+
       <div class="alphabet-buttons">
         <button class="letter-button">A</button>
         <button class="letter-button">B</button>
@@ -64,19 +66,35 @@
         <button class="letter-button">Z</button>
       </div>
       <br />
-      <div>
-        <textarea
-          style="
-            width: 100%;
-            height: 150px;
-            font-size: 16px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            resize: vertical;
-          "
-          class="note-input"
-        ></textarea>
+      <div style="display: flex; flex-wrap: wrap">
+        <div style="flex: 1; margin-right: 40px">
+          <textarea
+            style="
+              width: 100%;
+              height: 150px;
+              font-size: 16px;
+              padding: 10px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+              resize: vertical;
+            "
+            class="note-input"
+          ></textarea>
+        </div>
+        <div style="flex: 1">
+          <textarea
+            style="
+              width: 100%;
+              height: 150px;
+              font-size: 16px;
+              padding: 10px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+              resize: vertical;
+            "
+            class="note-input"
+          ></textarea>
+        </div>
       </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
