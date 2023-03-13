@@ -70,6 +70,8 @@ function guess() {
   // Add the guess to the user's list of guesses
   userGuesses.push(guess);
 
+  dailyGuessesAndScores = [];
+
   // Update the list of guesses on the screen
   let guessList = '';
   for (let i = 0; i < userGuesses.length; i++) {
@@ -79,8 +81,11 @@ function guess() {
     if (i == 3) {
       guessList += '<br/><br/>';
     }
+    dailyGuessesAndScores.push({ guess: guessText, score: guessScore });
   }
   document.getElementById('guesses').innerHTML = guessList;
+
+  updateSession('dailyGuesses', dailyGuessesAndScores);
 
   // Check if the guess is correct
   if (guess === dailyWord) {
@@ -128,3 +133,47 @@ function scoreGuess(guess) {
   }
   return score;
 }
+
+function updateSession(key, value) {
+  $.ajax({
+    type: 'POST',
+    url: '/update_session',
+    contentType: 'application/json',
+    data: JSON.stringify({ key: key, value: value }),
+    success: function (response) {
+      console.log(response);
+    },
+    error: function (response) {
+      console.error(response);
+    },
+  });
+}
+
+// Get all the letter buttons
+const letterButtons = document.querySelectorAll('.letter-button');
+
+// Define the sequence of colors
+const colors = ['red', 'orange', 'green', 'grey'];
+
+// Add click event listeners to each button
+letterButtons.forEach((button, index) => {
+  button.addEventListener('click', () => {
+    // Get the current color of the button
+    const currentColor = button.classList[1];
+
+    // Find the index of the current color in the colors array
+    const currentColorIndex = colors.indexOf(currentColor);
+
+    // Calculate the index of the next color in the colors array
+    const nextColorIndex = (currentColorIndex + 1) % colors.length;
+
+    // Get the next color from the colors array
+    const nextColor = colors[nextColorIndex];
+
+    // Remove the current color class from the button
+    button.classList.remove(currentColor);
+
+    // Add the next color class to the button
+    button.classList.add(nextColor);
+  });
+});

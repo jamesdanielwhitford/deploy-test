@@ -1,5 +1,10 @@
 import psycopg2
 from flask import Flask, render_template, request
+from flask_session import Session;
+from flask import session;
+from flask import jsonify;
+from datetime import date
+
 
 # setup environment variables
 import os
@@ -11,6 +16,8 @@ import os
 
 app = Flask(__name__)
 
+Session(app)
+
 @app.route('/')
 def index():
     return render_template('hardle.html')
@@ -18,6 +25,8 @@ def index():
 @app.route('/randle')
 def randle():
     return render_template('randle.html')
+
+
 
 # @app.route('/add-name', methods=['POST'])
 # def add_name():

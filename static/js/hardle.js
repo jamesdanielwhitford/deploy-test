@@ -11,11 +11,24 @@ let dailyWord = getDailyWord(words);
 // Keep track of the number of guesses
 let guessesRemaining = 8;
 
-// Keep track of the user's guesses
-let userGuesses = [];
-
 // Set up the initial display
 document.getElementById('word').textContent = dailyWord.replace(/./g, '*');
+
+// Keep track of the user's guesses
+
+let userGuesses = [];
+
+if (userGuesses.includes(dailyWord)) {
+  document.getElementById(
+    'message'
+  ).textContent = `You win! You guessed the word in ${
+    9 - guessesRemaining
+  } guesses!`;
+  // change message color to green
+  document.getElementById('message').style.color = 'green';
+  document.getElementById('word').textContent = dailyWord;
+  disableInput();
+}
 
 const input = document.getElementById('guessInput');
 input.addEventListener('keydown', (event) => {
@@ -48,6 +61,8 @@ function guess() {
   // Clear the guess input field
   document.getElementById('guessInput').value = '';
 
+  console.log(userGuesses);
+
   // If the user has already guessed this word, don't count it as a guess
   if (userGuesses.includes(guess)) {
     document.getElementById('message').textContent =
@@ -71,6 +86,8 @@ function guess() {
   // Add the guess to the user's list of guesses
   userGuesses.push(guess);
 
+  let dailyGuessesAndScores = [];
+
   // Update the list of guesses on the screen
   let guessList = '';
   for (let i = 0; i < userGuesses.length; i++) {
@@ -80,6 +97,7 @@ function guess() {
     if (i == 3) {
       guessList += '<br/><br/>';
     }
+    dailyGuessesAndScores.push(`${guessText} (${guessScore})`);
   }
   document.getElementById('guesses').innerHTML = guessList;
 
@@ -113,6 +131,7 @@ function guess() {
 function disableInput() {
   document.getElementById('guessInput').disabled = true;
   document.querySelector('button').disabled = true;
+  document.getElementById('guessButton').disabled = true;
 }
 
 // Score a guess by counting how many letters are in the daily word
@@ -129,3 +148,32 @@ function scoreGuess(guess) {
   }
   return score;
 }
+
+// Get all the letter buttons
+const letterButtons = document.querySelectorAll('.letter-button');
+
+// Define the sequence of colors
+const colors = ['red', 'orange', 'green', 'grey'];
+
+// Add click event listeners to each button
+letterButtons.forEach((button, index) => {
+  button.addEventListener('click', () => {
+    // Get the current color of the button
+    const currentColor = button.classList[1];
+
+    // Find the index of the current color in the colors array
+    const currentColorIndex = colors.indexOf(currentColor);
+
+    // Calculate the index of the next color in the colors array
+    const nextColorIndex = (currentColorIndex + 1) % colors.length;
+
+    // Get the next color from the colors array
+    const nextColor = colors[nextColorIndex];
+
+    // Remove the current color class from the button
+    button.classList.remove(currentColor);
+
+    // Add the next color class to the button
+    button.classList.add(nextColor);
+  });
+});
