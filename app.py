@@ -1,8 +1,8 @@
 import psycopg2
 from flask import Flask, render_template, request
-from flask_session import Session;
-from flask import session;
-from flask import jsonify;
+# from flask_session import Session;
+from flask import session
+from flask import jsonify
 from datetime import date
 
 
@@ -16,7 +16,7 @@ import os
 
 app = Flask(__name__)
 
-Session(app)
+# Session(app)
 
 @app.route('/')
 def index():
