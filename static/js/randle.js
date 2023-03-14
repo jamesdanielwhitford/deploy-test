@@ -153,7 +153,7 @@ function scoreGuess(guess) {
 const letterButtons = document.querySelectorAll('.letter-button');
 
 // Define the sequence of colors
-const colors = ['red', 'orange', 'green', 'grey'];
+const colors = ['orange', 'red', 'green', 'grey'];
 
 // Add click event listeners to each button
 letterButtons.forEach((button, index) => {
