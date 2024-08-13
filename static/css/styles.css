@@ -40,69 +40,67 @@ h1 {
   gap: 5px;
 }
 
-.letter-box {
+.guess-row > div {
   width: 50px;
   height: 50px;
-  border: 2px solid #ccc;
+  border: 2px solid #d3d6da;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 24px;
   font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+  cursor: pointer;
 }
 
-#currentGuess {
-  font-size: 24px;
-  margin-bottom: 10px;
+.guess-row > div.guessed {
+  border-color: #787c7e;
+}
+
+.guess-row > div.red {
+  background-color: #f28b82;
+}
+
+.guess-row > div.orange {
+  background-color: #fbbc04;
+}
+
+.guess-row > div.green {
+  background-color: #34a853;
+}
+
+.guess-row.correct > div {
+  background-color: #34a853;
+  border-color: #34a853;
+  color: white;
 }
 
 .keyboard {
   display: grid;
   grid-template-rows: repeat(3, 1fr);
-  gap: 5px;
+  gap: 8px;
 }
 
 .keyboard-row {
   display: flex;
   justify-content: center;
-  gap: 5px;
+  gap: 6px;
 }
 
-.letter-button {
-  width: 40px;
-  height: 50px;
-  font-size: 18px;
-  border: none;
-  background-color: #d3d6da;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.letter-button[data-key="ENTER"],
-.letter-button[data-key="⌫"] {
-  width: 65px;
-}
-
-.letter-button.correct {
-  background-color: #6aaa64;
-  color: white;
-}
-
-.letter-button.present {
-  background-color: #c9b458;
-  color: white;
-}
-
-.letter-button.absent {
-  background-color: #787c7e;
-  color: white;
-}
-
-#message {
-  margin-top: 10px;
+.keyboard button {
+  width: 43px;
+  height: 58px;
+  font-size: 13px;
   font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  background-color: #d3d6da;
+  color: #1a1a1b;
+  cursor: pointer;
+  text-transform: uppercase;
 }
 
-#guesses {
-  margin-top: 20px;
+.keyboard button.wide-button {
+  width: 65px;
 }
