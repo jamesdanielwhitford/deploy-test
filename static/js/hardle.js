@@ -1,47 +1,24 @@
 import { words } from './words.js';
 
 function getDailyWord(words) {
-  const seed = Math.floor(Date.now() / (24 * 60 * 60 * 1000)); // Use the day of the year as a seed
-  const rng = new Math.seedrandom(seed); // Create a random number generator with the seed
-  return words[Math.floor(rng() * words.length)]; // Use the random number to select a word from the list
+  const seed = Math.floor(Date.now() / (24 * 60 * 60 * 1000));
+  const rng = new Math.seedrandom(seed);
+  return words[Math.floor(rng() * words.length)];
 }
-// Choose a random word from the list
+
 let dailyWord = getDailyWord(words);
-
-// Keep track of the number of guesses
 let guessesRemaining = 8;
+let userGuesses = [];
+let currentGuess = '';
 
-// Set up the initial display
 document.getElementById('word').textContent = dailyWord.replace(/./g, '*');
 
-// Keep track of the user's guesses
-
-let userGuesses = [];
-
-if (userGuesses.includes(dailyWord)) {
-  document.getElementById(
-    'message'
-  ).textContent = `You win! You guessed the word in ${
-    9 - guessesRemaining
-  } guesses!`;
-  // change message color to green
-  document.getElementById('message').style.color = 'green';
-  document.getElementById('word').textContent = dailyWord;
-  disableInput();
-}
-
+// Remove event listeners for the input field and guess button
 const input = document.getElementById('guessInput');
-input.addEventListener('keydown', (event) => {
-  if (event.keyCode === 13) {
-    event.preventDefault(); // prevent the default action of submitting the form
-    guess();
-  }
-});
+input.style.display = 'none'; // Hide the input field
 
 const guessButton = document.getElementById('guessButton');
-guessButton.addEventListener('click', (event) => {
-  guess();
-});
+guessButton.style.display = 'none'; // Hide the guess button
 
 const alertRules = document.getElementById('rules');
 alertRules.addEventListener('click', (event) => {
@@ -50,45 +27,71 @@ alertRules.addEventListener('click', (event) => {
   );
 });
 
-// Handle a user guess
-function guess() {
-  // Get the user's guess
-  let guess = document.getElementById('guessInput').value.toLowerCase();
+// Add event listeners to the on-screen keyboard
+const letterButtons = document.querySelectorAll('.letter-button');
+letterButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const letter = button.textContent.toLowerCase();
+    if (currentGuess.length < 4) {
+      currentGuess += letter;
+      updateCurrentGuessDisplay();
+    }
+  });
+});
 
-  // strip the empty space from the end of the guess
-  guess = guess.trim();
+// Add event listener for the Enter key
+const enterButton = document.querySelector('.letter-button[data-key="ENTER"]');
+enterButton.addEventListener('click', () => {
+  if (currentGuess.length === 4) {
+    makeGuess(currentGuess);
+    currentGuess = '';
+    updateCurrentGuessDisplay();
+  }
+});
 
-  // Clear the guess input field
-  document.getElementById('guessInput').value = '';
+// Add event listener for the Backspace key
+const backspaceButton = document.querySelector('.letter-button[data-key="⌫"]');
+backspaceButton.addEventListener('click', () => {
+  if (currentGuess.length > 0) {
+    currentGuess = currentGuess.slice(0, -1);
+    updateCurrentGuessDisplay();
+  }
+});
 
-  console.log(userGuesses);
+function updateCurrentGuessDisplay() {
+  const currentGuessElement = document.getElementById('currentGuess');
+  currentGuessElement.textContent = currentGuess.padEnd(4, '_');
+}
 
-  // If the user has already guessed this word, don't count it as a guess
+function makeGuess(guess) {
   if (userGuesses.includes(guess)) {
-    document.getElementById('message').textContent =
-      'You already guessed that!';
+    document.getElementById('message').textContent = 'You already guessed that!';
     return;
   }
 
-  if (guess.length !== dailyWord.length) {
-    document.getElementById('message').textContent =
-      'Your guess must be 4 letters!';
-    return;
-  }
-
-  // check if guess is in swears
-
-  // if (swears.includes(guess)) {
-  //   document.getElementById('message').textContent = 'No swearing! 🐜';
-  //   return;
-  // }
-
-  // Add the guess to the user's list of guesses
   userGuesses.push(guess);
+  updateGuessList();
 
-  let dailyGuessesAndScores = [];
+  if (guess === dailyWord) {
+    document.getElementById('message').textContent = `You win! You guessed the word in ${9 - guessesRemaining} guesses!`;
+    document.getElementById('message').style.color = 'green';
+    document.getElementById('word').textContent = dailyWord;
+    disableKeyboard();
+    return;
+  }
 
-  // Update the list of guesses on the screen
+  guessesRemaining--;
+  document.getElementById('message').textContent = `Incorrect guess! ${guessesRemaining} guesses remaining.`;
+
+  if (guessesRemaining === 0) {
+    document.getElementById('word').textContent = dailyWord;
+    disableKeyboard();
+  }
+
+  updateKeyboardColors(guess);
+}
+
+function updateGuessList() {
   let guessList = '';
   for (let i = 0; i < userGuesses.length; i++) {
     let guessText = userGuesses[i];
@@ -97,44 +100,15 @@ function guess() {
     if (i == 3) {
       guessList += '<br/><br/>';
     }
-    dailyGuessesAndScores.push(`${guessText} (${guessScore})`);
   }
   document.getElementById('guesses').innerHTML = guessList;
-
-  // Check if the guess is correct
-  if (guess === dailyWord) {
-    document.getElementById(
-      'message'
-    ).textContent = `You win! You guessed the word in ${
-      9 - guessesRemaining
-    } guesses!`;
-    // change message color to green
-    document.getElementById('message').style.color = 'green';
-    document.getElementById('word').textContent = dailyWord;
-    disableInput();
-    return;
-  }
-
-  // Update the remaining guesses
-  guessesRemaining--;
-  document.getElementById('message').textContent =
-    'Incorrect guess! ' + guessesRemaining + ' guesses remaining.';
-
-  // If the user is out of guesses, reveal the word
-  if (guessesRemaining === 0) {
-    document.getElementById('word').textContent = dailyWord;
-    disableInput();
-  }
 }
 
-// Disable the input field and button
-function disableInput() {
-  document.getElementById('guessInput').disabled = true;
-  document.querySelector('button').disabled = true;
-  document.getElementById('guessButton').disabled = true;
+function disableKeyboard() {
+  letterButtons.forEach((button) => {
+    button.disabled = true;
+  });
 }
-
-// Score a guess by counting how many letters are in the daily word
 
 function scoreGuess(guess) {
   let score = 0;
@@ -149,31 +123,22 @@ function scoreGuess(guess) {
   return score;
 }
 
-// Get all the letter buttons
-const letterButtons = document.querySelectorAll('.letter-button');
+function updateKeyboardColors(guess) {
+  const dailyWordLetters = dailyWord.split('');
+  
+  for (let i = 0; i < guess.length; i++) {
+    const letter = guess[i];
+    const button = document.querySelector(`.letter-button[data-key="${letter.toUpperCase()}"]`);
+    
+    if (dailyWord[i] === letter) {
+      button.classList.add('correct');
+    } else if (dailyWordLetters.includes(letter)) {
+      button.classList.add('present');
+    } else {
+      button.classList.add('absent');
+    }
+  }
+}
 
-// Define the sequence of colors
-const colors = ['orange', 'red', 'green', 'grey'];
-
-// Add click event listeners to each button
-letterButtons.forEach((button, index) => {
-  button.addEventListener('click', () => {
-    // Get the current color of the button
-    const currentColor = button.classList[1];
-
-    // Find the index of the current color in the colors array
-    const currentColorIndex = colors.indexOf(currentColor);
-
-    // Calculate the index of the next color in the colors array
-    const nextColorIndex = (currentColorIndex + 1) % colors.length;
-
-    // Get the next color from the colors array
-    const nextColor = colors[nextColorIndex];
-
-    // Remove the current color class from the button
-    button.classList.remove(currentColor);
-
-    // Add the next color class to the button
-    button.classList.add(nextColor);
-  });
-});
+// Initialize the current guess display
+updateCurrentGuessDisplay();

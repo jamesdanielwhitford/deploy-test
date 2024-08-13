@@ -1,0 +1,5 @@
+The game has two modes hardle and randle
+
+hardle gives a single four letter word for each day that the user has to guess. The user can guess four letter words in the input, the guess will be evaluated and given a score. Say the four letter word of the day is look, if the user guesses the word pore the UI will respomnd with this pore(1) because pore has a single letter which matches within the word of the fay which is look, the o is in both words. If the user then guesses boot, the ui would say boot(2) because this shares two letters with the original word. The user has 8 guesses to try and get it right. There is a keyboard on the screen the usr can currently click to chnage the color of the keys, this keyboard was supoposed to help users to visualise what letters can and can't be in the word, by making ruled out letters red, possible letters orange and correct letters green.
+
+Randle is similar but the user can play more than once per day

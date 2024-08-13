@@ -1,97 +1,74 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>hardle</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static', filename='css/styles.css') }}"
-    />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-  </head>
-  <body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hardle</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
     <div id="game">
-      <div class="header-container">
-        <h1>Hardle!</h1>
-        <form action="/randle" method="get" id="form">
-          <input type="submit" id="randleButton" value="Randle!" />
-        </form>
-        <button id="coffee" onclick="window.open('https://www.buymeacoffee.com/jameswhitford')">☕️</button>
-        <button onclick="showAlert()" id="rules">?</button>
-      </div>
-
-      <h2>Guess the four letter word</h2>
-      <p id="word"></p>
-      <p id="guesses"></p>
-      <p id="message"></p>
-
-      <div class="center" style="display: flex; flex-direction:row">
-        <input type="text" id="guessInput" placeholder="Guess here" />
-        <button id="guessButton" onclick="guess()">Go!</button>
-      </div>
-      <br/>
-      <div class="alphabet-buttons">
-        <button class="letter-button">A</button>
-        <button class="letter-button">B</button>
-        <button class="letter-button">C</button>
-        <button class="letter-button">D</button>
-        <button class="letter-button">E</button>
-        <button class="letter-button">F</button>
-        <button class="letter-button">G</button>
-        <button class="letter-button">H</button>
-        <button class="letter-button">I</button>
-        <button class="letter-button">J</button>
-        <button class="letter-button">K</button>
-        <button class="letter-button">L</button>
-        <button class="letter-button">M</button>
-        <button class="letter-button">N</button>
-        <button class="letter-button">O</button>
-        <button class="letter-button">P</button>
-        <button class="letter-button">Q</button>
-        <button class="letter-button">R</button>
-        <button class="letter-button">S</button>
-        <button class="letter-button">T</button>
-        <button class="letter-button">U</button>
-        <button class="letter-button">V</button>
-        <button class="letter-button">W</button>
-        <button class="letter-button">X</button>
-        <button class="letter-button">Y</button>
-        <button class="letter-button">Z</button>
-      </div>
-      <br>
-      <div style="display: flex; flex-wrap: wrap">
-        <div style="flex: 1; margin-right: 40px">
-          <textarea
-            style="
-              width: 100%;
-              height: 150px;
-              font-size: 16px;
-              padding: 10px;
-              border: 1px solid #ccc;
-              border-radius: 5px;
-              resize: vertical;
-            "
-            class="note-input"
-          ></textarea>
+        <div class="header-container">
+            <h1>Hardle!</h1>
+            <span class="emoji">☕️</span>
+            <button id="rules">?</button>
         </div>
-        <div style="flex: 1">
-          <textarea
-            style="
-              width: 100%;
-              height: 150px;
-              font-size: 16px;
-              padding: 10px;
-              border: 1px solid #ccc;
-              border-radius: 5px;
-              resize: vertical;
-            "
-            class="note-input"
-          ></textarea>
+
+        <h2>Guess the four letter word</h2>
+
+        <div id="guessGrid">
+            <!-- Add 6 rows of 4 letter placeholders -->
+            <div class="guess-row">
+                <div class="letter-box"></div>
+                <div class="letter-box"></div>
+                <div class="letter-box"></div>
+                <div class="letter-box"></div>
+            </div>
+            <!-- Repeat for a total of 6 rows -->
         </div>
-      </div>
+
+        <div id="currentGuess"></div>
+        <div id="message"></div>
+        <div id="guesses"></div>
+
+        <div class="keyboard">
+            <div class="keyboard-row">
+                <button class="letter-button" data-key="Q">Q</button>
+                <button class="letter-button" data-key="W">W</button>
+                <button class="letter-button" data-key="E">E</button>
+                <button class="letter-button" data-key="R">R</button>
+                <button class="letter-button" data-key="T">T</button>
+                <button class="letter-button" data-key="Y">Y</button>
+                <button class="letter-button" data-key="U">U</button>
+                <button class="letter-button" data-key="I">I</button>
+                <button class="letter-button" data-key="O">O</button>
+                <button class="letter-button" data-key="P">P</button>
+            </div>
+            <div class="keyboard-row">
+                <button class="letter-button" data-key="A">A</button>
+                <button class="letter-button" data-key="S">S</button>
+                <button class="letter-button" data-key="D">D</button>
+                <button class="letter-button" data-key="F">F</button>
+                <button class="letter-button" data-key="G">G</button>
+                <button class="letter-button" data-key="H">H</button>
+                <button class="letter-button" data-key="J">J</button>
+                <button class="letter-button" data-key="K">K</button>
+                <button class="letter-button" data-key="L">L</button>
+            </div>
+            <div class="keyboard-row">
+                <button class="letter-button" data-key="ENTER">ENTER</button>
+                <button class="letter-button" data-key="Z">Z</button>
+                <button class="letter-button" data-key="X">X</button>
+                <button class="letter-button" data-key="C">C</button>
+                <button class="letter-button" data-key="V">V</button>
+                <button class="letter-button" data-key="B">B</button>
+                <button class="letter-button" data-key="N">N</button>
+                <button class="letter-button" data-key="M">M</button>
+                <button class="letter-button" data-key="⌫">⌫</button>
+            </div>
+        </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
-    <script type="module" src="{{ url_for('static', filename='js/hardle.js') }}"></script>
+
+    <script type="module" src="/static/js/hardle.js"></script>
+</body>
 </html>
