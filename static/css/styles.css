@@ -29,18 +29,18 @@ h1 {
 
 #guessGrid {
   display: grid;
-  grid-template-rows: repeat(6, 1fr);
+  grid-template-rows: repeat(8, 1fr);
   gap: 5px;
   margin-bottom: 20px;
 }
 
 .guess-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr) 0.5fr;
   gap: 5px;
 }
 
-.guess-row > div {
+.guess-row > div.letter {
   width: 50px;
   height: 50px;
   border: 2px solid #d3d6da;
@@ -52,6 +52,18 @@ h1 {
   text-transform: uppercase;
   transition: background-color 0.3s, border-color 0.3s, color 0.3s;
   cursor: pointer;
+}
+
+.guess-row > div.score {
+  width: 30px;
+  height: 50px;
+  border: 2px solid #d3d6da;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #f8f9fa;
 }
 
 .guess-row > div.guessed {

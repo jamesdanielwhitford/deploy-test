@@ -7,7 +7,7 @@ function getDailyWord(words) {
 }
 
 let dailyWord = getDailyWord(words);
-let guessesRemaining = 6;
+let guessesRemaining = 8;
 let currentGuess = '';
 let guessHistory = [];
 let gameOver = false;
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function handleGridClick(e) {
-    if (e.target.matches('.guess-row > div') && e.target.textContent) {
+    if (e.target.matches('.guess-row > div.letter') && e.target.textContent) {
       toggleColor(e.target);
     }
   }
@@ -66,13 +66,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const row = guessGrid.children[6 - guessesRemaining];
+    const row = guessGrid.children[8 - guessesRemaining];
+    const letterCells = row.querySelectorAll('.letter');
+    const scoreCell = row.querySelector('.score');
 
     for (let i = 0; i < 4; i++) {
-      const cell = row.children[i];
+      const cell = letterCells[i];
       cell.textContent = currentGuess[i];
       cell.classList.add('guessed');
     }
+
+    const correctLetterCount = getCorrectLetterCount(currentGuess, dailyWord);
+    scoreCell.textContent = correctLetterCount;
 
     guessHistory.push(currentGuess);
     guessesRemaining--;
@@ -81,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
       gameOver = true;
       row.classList.add('correct');
       setTimeout(() => {
-        alert(`Congratulations! You guessed the word in ${6 - guessesRemaining} tries!`);
+        alert(`Congratulations! You guessed the word in ${9 - guessesRemaining} tries!`);
       }, 300);
     } else if (guessesRemaining === 0) {
       gameOver = true;
@@ -94,9 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateGrid() {
-    const row = guessGrid.children[6 - guessesRemaining];
+    const row = guessGrid.children[8 - guessesRemaining];
+    const letterCells = row.querySelectorAll('.letter');
     for (let i = 0; i < 4; i++) {
-      const cell = row.children[i];
+      const cell = letterCells[i];
       cell.textContent = currentGuess[i] || '';
     }
   }
@@ -108,9 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let nextColorIndex = (currentColorIndex + 1) % colors.length;
     
     cell.dataset.color = colors[nextColorIndex];
-    cell.className = 'guessed ' + colors[nextColorIndex];
+    cell.className = 'letter guessed ' + colors[nextColorIndex];
 
-    // Update keyboard letter color
     updateKeyboardColor(cell.textContent, colors[nextColorIndex]);
   }
 
@@ -119,6 +124,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (keyboardButton) {
       keyboardButton.className = 'letter-button ' + color;
     }
+  }
+
+  function getCorrectLetterCount(guess, answer) {
+    const guessLetters = guess.split('');
+    const answerLetters = answer.split('');
+    let count = 0;
+
+    for (let i = 0; i < guessLetters.length; i++) {
+      const index = answerLetters.indexOf(guessLetters[i]);
+      if (index !== -1) {
+        count++;
+        answerLetters[index] = null; // Mark this letter as counted
+      }
+    }
+
+    return count;
   }
 
   console.log("Today's word (for debugging):", dailyWord);
