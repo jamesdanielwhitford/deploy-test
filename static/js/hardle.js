@@ -51,6 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (key === 'ENTER') {
       if (currentGuess.length === 4) {
         submitGuess();
+      } else {
+        alert('Please enter a 4-letter word.');
       }
     } else if (key === 'BACKSPACE') {
       currentGuess = currentGuess.slice(0, -1);
@@ -61,11 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function submitGuess() {
-    if (!words.includes(currentGuess.toLowerCase())) {
-      alert('Not in word list');
-      return;
-    }
-
     const row = guessGrid.children[8 - guessesRemaining];
     const letterCells = row.querySelectorAll('.letter');
     const scoreCell = row.querySelector('.score');
