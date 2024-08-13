@@ -12,7 +12,7 @@ let currentGuess = '';
 let guessHistory = [];
 let gameOver = false;
 
-const colors = ['', 'red', 'orange', 'green'];
+const colors = ['', 'orange', 'red', 'green'];
 
 document.addEventListener('DOMContentLoaded', () => {
   const keyboard = document.querySelector('.keyboard');
@@ -109,6 +109,16 @@ document.addEventListener('DOMContentLoaded', () => {
     
     cell.dataset.color = colors[nextColorIndex];
     cell.className = 'guessed ' + colors[nextColorIndex];
+
+    // Update keyboard letter color
+    updateKeyboardColor(cell.textContent, colors[nextColorIndex]);
+  }
+
+  function updateKeyboardColor(letter, color) {
+    const keyboardButton = document.querySelector(`.keyboard button[data-key="${letter}"]`);
+    if (keyboardButton) {
+      keyboardButton.className = 'letter-button ' + color;
+    }
   }
 
   console.log("Today's word (for debugging):", dailyWord);
