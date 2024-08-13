@@ -1,179 +1,173 @@
 import { words } from './words.js';
 
-function getDailyWord(words) {
-  return words[Math.floor(Math.random() * words.length)];
+function getRandomWord(words) {
+    return words[Math.floor(Math.random() * words.length)].toUpperCase();
 }
 
-// Choose a random word from the list
-let dailyWord = getDailyWord(words);
+let currentWord;
+let guessesRemaining;
+let currentGuess = '';
+let guessHistory = [];
+let gameOver = false;
 
-// Keep track of the number of guesses
-let guessesRemaining = 8;
+const colors = ['', 'orange', 'red', 'green'];
 
-// Keep track of the user's guesses
-let userGuesses = [];
+function initializeGame() {
+    currentWord = getRandomWord(words);
+    guessesRemaining = 8;
+    currentGuess = '';
+    guessHistory = [];
+    gameOver = false;
 
-// Set up the initial display
-document.getElementById('word').textContent = dailyWord.replace(/./g, '*');
+    // Clear the grid
+    const guessGrid = document.getElementById('guessGrid');
+    guessGrid.querySelectorAll('.guess-row').forEach(row => {
+        row.querySelectorAll('.letter').forEach(cell => {
+            cell.textContent = '';
+            cell.className = 'letter';
+        });
+        row.querySelector('.score').textContent = '';
+    });
 
-const input = document.getElementById('guessInput');
-input.addEventListener('keydown', (event) => {
-  if (event.keyCode === 13) {
-    event.preventDefault(); // prevent the default action of submitting the form
-    guess();
-  }
-});
+    // Reset keyboard colors
+    document.querySelectorAll('.keyboard button').forEach(button => {
+        button.className = button.className.includes('wide-button') ? 'wide-button' : '';
+    });
 
-const guessButton = document.getElementById('guessButton');
-guessButton.addEventListener('click', (event) => {
-  guess();
-});
+    console.log("New word:", currentWord); // For debugging
+}
 
-const alertRules = document.getElementById('rules');
-alertRules.addEventListener('click', (event) => {
-  alert(
-    `1. Every day, a new four-letter word is chosen for you to guess.\n2. You have eight chances to guess the word correctly before you lose the game.\n3. After each guess, you'll receive a score that indicates how many letters in your guess are also in the daily word.\n4. If the daily word contains a double letter, like "ball", and you guess a word that contains the same double letter, like "bell", then the double letter will be counted as two separate matches.\n5. Your previous guesses and scores will be displayed so you can keep track of your progress.`
-  );
-});
+document.addEventListener('DOMContentLoaded', () => {
+    initializeGame();
 
-// Handle a user guess
-function guess() {
-  // Get the user's guess
-  let guess = document.getElementById('guessInput').value.toLowerCase();
+    const keyboard = document.querySelector('.keyboard');
+    const guessGrid = document.getElementById('guessGrid');
 
-  // strip the empty space from the end of the guess
-  guess = guess.trim();
+    keyboard.addEventListener('click', handleKeyboardClick);
+    document.addEventListener('keydown', handleKeyPress);
+    guessGrid.addEventListener('click', handleGridClick);
 
-  // Clear the guess input field
-  document.getElementById('guessInput').value = '';
-
-  // If the user has already guessed this word, don't count it as a guess
-  if (userGuesses.includes(guess)) {
-    document.getElementById('message').textContent =
-      'You already guessed that!';
-    return;
-  }
-
-  if (guess.length !== dailyWord.length) {
-    document.getElementById('message').textContent =
-      'Your guess must be 4 letters!';
-    return;
-  }
-
-  // check if guess is in swears
-
-  // if (swears.includes(guess)) {
-  //   document.getElementById('message').textContent = 'No swearing! 🐜';
-  //   return;
-  // }
-
-  // Add the guess to the user's list of guesses
-  userGuesses.push(guess);
-
-  let dailyGuessesAndScores = [];
-
-  // Update the list of guesses on the screen
-  let guessList = '';
-  for (let i = 0; i < userGuesses.length; i++) {
-    let guessText = userGuesses[i];
-    let guessScore = scoreGuess(guessText);
-    guessList += guessText + '(' + guessScore + ')\n';
-    if (i == 3) {
-      guessList += '<br/><br/>';
+    function handleKeyboardClick(e) {
+        if (e.target.matches('button')) {
+            const key = e.target.dataset.key;
+            handleInput(key);
+        }
     }
-    dailyGuessesAndScores.push({ guess: guessText, score: guessScore });
-  }
-  document.getElementById('guesses').innerHTML = guessList;
 
-  // updateSession('dailyGuesses', dailyGuessesAndScores);
-
-  // Check if the guess is correct
-  if (guess === dailyWord) {
-    document.getElementById(
-      'message'
-    ).textContent = `You win! You guessed the word in ${
-      9 - guessesRemaining
-    } guesses!`;
-    // change message color to green
-    document.getElementById('message').style.color = 'green';
-    document.getElementById('word').textContent = dailyWord;
-    disableInput();
-    return;
-  }
-
-  // Update the remaining guesses
-  guessesRemaining--;
-  document.getElementById('message').textContent =
-    'Incorrect guess! ' + guessesRemaining + ' guesses remaining.';
-
-  // If the user is out of guesses, reveal the word
-  if (guessesRemaining === 0) {
-    document.getElementById('word').textContent = dailyWord;
-    disableInput();
-  }
-}
-
-// Disable the input field and button
-function disableInput() {
-  document.getElementById('guessInput').disabled = true;
-  document.querySelector('button').disabled = true;
-}
-
-// Score a guess by counting how many letters are in the daily word
-
-function scoreGuess(guess) {
-  let score = 0;
-  let unmatchedLetters = dailyWord.split('');
-  for (let i = 0; i < guess.length; i++) {
-    let letterIndex = unmatchedLetters.indexOf(guess[i]);
-    if (letterIndex >= 0) {
-      score++;
-      unmatchedLetters.splice(letterIndex, 1);
+    function handleKeyPress(e) {
+        if (e.key.match(/^[a-z]$/i)) {
+            handleInput(e.key.toUpperCase());
+        } else if (e.key === 'Enter') {
+            handleInput('ENTER');
+        } else if (e.key === 'Backspace') {
+            handleInput('BACKSPACE');
+        }
     }
-  }
-  return score;
-}
 
-// function updateSession(key, value) {
-//   $.ajax({
-//     type: 'POST',
-//     url: '/update_session',
-//     contentType: 'application/json',
-//     data: JSON.stringify({ key: key, value: value }),
-//     success: function (response) {
-//       console.log(response);
-//     },
-//     error: function (response) {
-//       console.error(response);
-//     },
-//   });
-// }
+    function handleGridClick(e) {
+        if (e.target.matches('.guess-row > div.letter') && e.target.textContent) {
+            toggleColor(e.target);
+        }
+    }
 
-// Get all the letter buttons
-const letterButtons = document.querySelectorAll('.letter-button');
+    function handleInput(key) {
+        if (gameOver) return;
 
-// Define the sequence of colors
-const colors = ['orange', 'red', 'green', 'grey'];
+        if (key === 'ENTER') {
+            if (currentGuess.length === 4) {
+                submitGuess();
+            } else {
+                alert('Please enter a 4-letter word.');
+            }
+        } else if (key === 'BACKSPACE') {
+            currentGuess = currentGuess.slice(0, -1);
+        } else if (currentGuess.length < 4) {
+            currentGuess += key;
+        }
+        updateGrid();
+    }
 
-// Add click event listeners to each button
-letterButtons.forEach((button, index) => {
-  button.addEventListener('click', () => {
-    // Get the current color of the button
-    const currentColor = button.classList[1];
+    function submitGuess() {
+        const row = guessGrid.children[8 - guessesRemaining];
+        const letterCells = row.querySelectorAll('.letter');
+        const scoreCell = row.querySelector('.score');
 
-    // Find the index of the current color in the colors array
-    const currentColorIndex = colors.indexOf(currentColor);
+        for (let i = 0; i < 4; i++) {
+            const cell = letterCells[i];
+            cell.textContent = currentGuess[i];
+            cell.classList.add('guessed');
+        }
 
-    // Calculate the index of the next color in the colors array
-    const nextColorIndex = (currentColorIndex + 1) % colors.length;
+        const correctLetterCount = getCorrectLetterCount(currentGuess, currentWord);
+        scoreCell.textContent = correctLetterCount;
 
-    // Get the next color from the colors array
-    const nextColor = colors[nextColorIndex];
+        guessHistory.push(currentGuess);
+        guessesRemaining--;
 
-    // Remove the current color class from the button
-    button.classList.remove(currentColor);
+        if (currentGuess === currentWord) {
+            gameOver = true;
+            row.classList.add('correct');
+            setTimeout(() => {
+                if (confirm(`Congratulations! You guessed the word in ${9 - guessesRemaining} tries! Play again?`)) {
+                    initializeGame();
+                }
+            }, 300);
+        } else if (guessesRemaining === 0) {
+            gameOver = true;
+            setTimeout(() => {
+                if (confirm(`Game over! The word was ${currentWord}. Play again?`)) {
+                    initializeGame();
+                }
+            }, 300);
+        }
 
-    // Add the next color class to the button
-    button.classList.add(nextColor);
-  });
+        currentGuess = '';
+    }
+
+    function updateGrid() {
+        const row = guessGrid.children[8 - guessesRemaining];
+        const letterCells = row.querySelectorAll('.letter');
+        for (let i = 0; i < 4; i++) {
+            const cell = letterCells[i];
+            cell.textContent = currentGuess[i] || '';
+        }
+    }
+
+    function toggleColor(cell) {
+        if (!cell.classList.contains('guessed')) return;
+        
+        let currentColorIndex = colors.indexOf(cell.dataset.color || '');
+        let nextColorIndex = (currentColorIndex + 1) % colors.length;
+        
+        cell.dataset.color = colors[nextColorIndex];
+        cell.className = 'letter guessed ' + colors[nextColorIndex];
+
+        updateKeyboardColor(cell.textContent, colors[nextColorIndex]);
+    }
+
+    function updateKeyboardColor(letter, color) {
+        const keyboardButton = document.querySelector(`.keyboard button[data-key="${letter}"]`);
+        if (keyboardButton) {
+            keyboardButton.className = color ? color : '';
+            if (keyboardButton.classList.contains('wide-button')) {
+                keyboardButton.classList.add('wide-button');
+            }
+        }
+    }
+
+    function getCorrectLetterCount(guess, answer) {
+        const guessLetters = guess.split('');
+        const answerLetters = answer.split('');
+        let count = 0;
+
+        for (let i = 0; i < guessLetters.length; i++) {
+            const index = answerLetters.indexOf(guessLetters[i]);
+            if (index !== -1) {
+                count++;
+                answerLetters[index] = null; // Mark this letter as counted
+            }
+        }
+
+        return count;
+    }
 });
