@@ -102,14 +102,37 @@ document.addEventListener('DOMContentLoaded', () => {
         const letterCells = row.querySelectorAll('.letter');
         const scoreCell = row.querySelector('.score');
 
+        const correctLetterCount = getCorrectLetterCount(currentGuess, dailyWord);
+        scoreCell.textContent = correctLetterCount;
+
         for (let i = 0; i < 4; i++) {
             const cell = letterCells[i];
             cell.textContent = currentGuess[i];
             cell.classList.add('guessed');
-        }
 
-        const correctLetterCount = getCorrectLetterCount(currentGuess, dailyWord);
-        scoreCell.textContent = correctLetterCount;
+            if (correctLetterCount === 0) {
+                // If score is 0, turn all tiles red
+                cell.className = 'letter guessed red';
+                cell.dataset.color = 'red';
+                updateKeyboardColor(currentGuess[i], 'red');
+            } else if (currentGuess !== dailyWord) {
+                // If not a perfect match, turn tiles orange unless previously marked red
+                const keyboardButton = document.querySelector(`.keyboard button[data-key="${currentGuess[i]}"]`);
+                if (keyboardButton && !keyboardButton.classList.contains('red')) {
+                    cell.className = 'letter guessed orange';
+                    cell.dataset.color = 'orange';
+                    updateKeyboardColor(currentGuess[i], 'orange');
+                } else {
+                    cell.className = 'letter guessed red';
+                    cell.dataset.color = 'red';
+                }
+            } else {
+                // Perfect match, turn all tiles green
+                cell.className = 'letter guessed green';
+                cell.dataset.color = 'green';
+                updateKeyboardColor(currentGuess[i], 'green');
+            }
+        }
 
         guessHistory.push(currentGuess);
         guessesRemaining--;
