@@ -12,6 +12,7 @@ let guessHistory = [];
 let gameOver = false;
 
 const colors = ['', 'orange', 'red', 'green'];
+const colorHierarchy = { 'green': 3, 'orange': 2, 'red': 1, '': 0 };
 
 function initializeGame() {
     currentWord = getRandomWord(words);
@@ -100,42 +101,44 @@ document.addEventListener('DOMContentLoaded', () => {
         const row = guessGrid.children[8 - guessesRemaining];
         const letterCells = row.querySelectorAll('.letter');
         const scoreCell = row.querySelector('.score');
-
+    
         const correctLetterCount = getCorrectLetterCount(currentGuess, currentWord);
         scoreCell.textContent = correctLetterCount;
-
+    
         for (let i = 0; i < 4; i++) {
             const cell = letterCells[i];
             cell.textContent = currentGuess[i];
             cell.classList.add('guessed');
-
+    
+            let cellColor;
             if (correctLetterCount === 0) {
                 // If score is 0, turn all tiles red
-                cell.className = 'letter guessed red';
-                cell.dataset.color = 'red';
-                updateKeyboardColor(currentGuess[i], 'red');
+                cellColor = 'red';
             } else if (currentGuess !== currentWord) {
-                // If not a perfect match, turn tiles orange unless previously marked red
-                const keyboardButton = document.querySelector(`.keyboard button[data-key="${currentGuess[i]}"]`);
-                if (keyboardButton && !keyboardButton.classList.contains('red')) {
-                    cell.className = 'letter guessed orange';
-                    cell.dataset.color = 'orange';
-                    updateKeyboardColor(currentGuess[i], 'orange');
+                // Check if this letter was part of a previous zero-score guess
+                const wasInZeroScoreGuess = guessHistory.some(guess => 
+                    guess.includes(currentGuess[i]) && 
+                    getCorrectLetterCount(guess, currentWord) === 0
+                );
+                
+                if (wasInZeroScoreGuess) {
+                    cellColor = 'red';
                 } else {
-                    cell.className = 'letter guessed red';
-                    cell.dataset.color = 'red';
+                    cellColor = 'orange';
                 }
             } else {
-                // Perfect match, turn all tiles green
-                cell.className = 'letter guessed green';
-                cell.dataset.color = 'green';
-                updateKeyboardColor(currentGuess[i], 'green');
+                // Perfect match
+                cellColor = 'green';
             }
+    
+            cell.className = `letter guessed ${cellColor}`;
+            cell.dataset.color = cellColor;
+            updateKeyboardColor(currentGuess[i], cellColor);
         }
-
+    
         guessHistory.push(currentGuess);
         guessesRemaining--;
-
+    
         if (currentGuess === currentWord) {
             gameOver = true;
             row.classList.add('correct');
@@ -152,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }, 300);
         }
-
+    
         currentGuess = '';
     }
 
@@ -177,12 +180,15 @@ document.addEventListener('DOMContentLoaded', () => {
         updateKeyboardColor(cell.textContent, colors[nextColorIndex]);
     }
 
-    function updateKeyboardColor(letter, color) {
+    function updateKeyboardColor(letter, newColor) {
         const keyboardButton = document.querySelector(`.keyboard button[data-key="${letter}"]`);
         if (keyboardButton) {
-            keyboardButton.className = color ? `letter-button ${color}` : 'letter-button';
-            if (keyboardButton.classList.contains('wide-button')) {
-                keyboardButton.classList.add('wide-button');
+            const currentColor = keyboardButton.className.split(' ').find(c => colorHierarchy.hasOwnProperty(c)) || '';
+            if (colorHierarchy[newColor] > colorHierarchy[currentColor]) {
+                keyboardButton.className = `letter-button ${newColor}`;
+                if (keyboardButton.classList.contains('wide-button')) {
+                    keyboardButton.classList.add('wide-button');
+                }
             }
         }
     }
