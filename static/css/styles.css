@@ -215,10 +215,10 @@ h1 {
   cursor: pointer;
 }
 
-/* Responsive styles */
-@media (min-width: 768px) {
+/* Responsive styles for landscape mode or larger screens */
+@media (min-width: 768px) and (orientation: landscape) {
   .header-container {
-    padding: 0 10px;  /* Increased padding for larger screens */
+    padding: 0 10px;
   }
 
   h1 {
