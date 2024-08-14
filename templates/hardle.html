@@ -7,46 +7,73 @@
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <div id="game">
-        <div class="header-container">
+    <div id="game" class="full-screen">
+        <header class="header-container">
             <h1>Hardle!</h1>
-            <span class="emoji">☕️</span>
-            <button id="rules">?</button>
-        </div>
+            <div class="header-buttons">
+                <button id="rulesButton">Rules</button>
+                <a href="/randle" class="nav-button">Play Randle</a>
+                <a href="https://www.buymeacoffee.com/jameswhitford" target="_blank" class="coffee-button">☕️</a>
+            </div>
+            <button id="helpButton">?</button>
+        </header>
 
         <div class="game-container">
             <div id="guessGrid">
-                <!-- 8 rows of 4 letter placeholders and a score column -->
                 <div class="guess-row">
-                    <div class="letter"></div><div class="letter"></div><div class="letter"></div><div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
                     <div class="score"></div>
                 </div>
                 <div class="guess-row">
-                    <div class="letter"></div><div class="letter"></div><div class="letter"></div><div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
                     <div class="score"></div>
                 </div>
                 <div class="guess-row">
-                    <div class="letter"></div><div class="letter"></div><div class="letter"></div><div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
                     <div class="score"></div>
                 </div>
                 <div class="guess-row">
-                    <div class="letter"></div><div class="letter"></div><div class="letter"></div><div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
                     <div class="score"></div>
                 </div>
                 <div class="guess-row">
-                    <div class="letter"></div><div class="letter"></div><div class="letter"></div><div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
                     <div class="score"></div>
                 </div>
                 <div class="guess-row">
-                    <div class="letter"></div><div class="letter"></div><div class="letter"></div><div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
                     <div class="score"></div>
                 </div>
                 <div class="guess-row">
-                    <div class="letter"></div><div class="letter"></div><div class="letter"></div><div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
                     <div class="score"></div>
                 </div>
                 <div class="guess-row">
-                    <div class="letter"></div><div class="letter"></div><div class="letter"></div><div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
                     <div class="score"></div>
                 </div>
             </div>
@@ -89,8 +116,6 @@
             </div>
         </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
     <script type="module" src="/static/js/hardle.js"></script>
 </body>
 </html>
