@@ -99,62 +99,62 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function submitGuess() {
-      const row = guessGrid.children[8 - guessesRemaining];
-      const letterCells = row.querySelectorAll('.letter');
-      const scoreCell = row.querySelector('.score');
-  
-      const correctLetterCount = getCorrectLetterCount(currentGuess, dailyWord);
-      scoreCell.textContent = correctLetterCount;
-  
-      for (let i = 0; i < 4; i++) {
-          const cell = letterCells[i];
-          cell.textContent = currentGuess[i];
-          cell.classList.add('guessed');
-  
-          let cellColor;
-          if (correctLetterCount === 0) {
-              // If score is 0, turn all tiles red
-              cellColor = 'red';
-          } else if (currentGuess !== dailyWord) {
-              // Check if this letter was part of a previous zero-score guess
-              const wasInZeroScoreGuess = guessHistory.some(guess => 
-                  guess.includes(currentGuess[i]) && 
-                  getCorrectLetterCount(guess, dailyWord) === 0
-              );
-              
-              if (wasInZeroScoreGuess) {
-                  cellColor = 'red';
-              } else {
-                  cellColor = 'orange';
-              }
-          } else {
-              // Perfect match
-              cellColor = 'green';
-          }
-  
-          cell.className = `letter guessed ${cellColor}`;
-          cell.dataset.color = cellColor;
-          updateKeyboardColor(currentGuess[i], cellColor);
-      }
-  
-      guessHistory.push(currentGuess);
-      guessesRemaining--;
-  
-      if (currentGuess === dailyWord) {
-          gameOver = true;
-          row.classList.add('correct');
-          setTimeout(() => {
-              alert(`Congratulations! You guessed the word in ${9 - guessesRemaining} tries!`);
-          }, 300);
-      } else if (guessesRemaining === 0) {
-          gameOver = true;
-          setTimeout(() => {
-              alert(`Game over! The word was ${dailyWord}`);
-          }, 300);
-      }
-  
-      currentGuess = '';
-  }
+        const row = guessGrid.children[8 - guessesRemaining];
+        const letterCells = row.querySelectorAll('.letter');
+        const scoreCell = row.querySelector('.score');
+    
+        const correctLetterCount = getCorrectLetterCount(currentGuess, dailyWord);
+        scoreCell.textContent = correctLetterCount;
+    
+        for (let i = 0; i < 4; i++) {
+            const cell = letterCells[i];
+            cell.textContent = currentGuess[i];
+            cell.classList.add('guessed');
+    
+            let cellColor;
+            if (correctLetterCount === 0) {
+                // If score is 0, turn all tiles red
+                cellColor = 'red';
+            } else if (currentGuess !== dailyWord) {
+                // Check if this letter was part of a previous zero-score guess
+                const wasInZeroScoreGuess = guessHistory.some(guess => 
+                    guess.includes(currentGuess[i]) && 
+                    getCorrectLetterCount(guess, dailyWord) === 0
+                );
+                
+                if (wasInZeroScoreGuess) {
+                    cellColor = 'red';
+                } else {
+                    cellColor = 'orange';
+                }
+            } else {
+                // Perfect match
+                cellColor = 'green';
+            }
+    
+            cell.className = `letter guessed ${cellColor}`;
+            cell.dataset.color = cellColor;
+            updateKeyboardColor(currentGuess[i], cellColor);
+        }
+    
+        guessHistory.push(currentGuess);
+        guessesRemaining--;
+    
+        if (currentGuess === dailyWord) {
+            gameOver = true;
+            row.classList.add('correct');
+            setTimeout(() => {
+                alert(`Congratulations! You guessed the word in ${9 - guessesRemaining} tries!`);
+            }, 300);
+        } else if (guessesRemaining === 0) {
+            gameOver = true;
+            setTimeout(() => {
+                alert(`Game over! The word was ${dailyWord}`);
+            }, 300);
+        }
+    
+        currentGuess = '';
+    }
 
     function updateGrid() {
         const row = guessGrid.children[8 - guessesRemaining];
@@ -174,19 +174,46 @@ document.addEventListener('DOMContentLoaded', () => {
         cell.dataset.color = colors[nextColorIndex];
         cell.className = 'letter guessed ' + colors[nextColorIndex];
 
-        updateKeyboardColor(cell.textContent, colors[nextColorIndex]);
+        updateKeyboardColorFromGrid(cell.textContent);
     }
 
     function updateKeyboardColor(letter, newColor) {
         const keyboardButton = document.querySelector(`.keyboard button[data-key="${letter}"]`);
         if (keyboardButton) {
-            const currentColor = keyboardButton.className.split(' ').find(c => colorHierarchy.hasOwnProperty(c)) || '';
+            const currentColor = getKeyboardButtonColor(keyboardButton);
             if (colorHierarchy[newColor] > colorHierarchy[currentColor]) {
-                keyboardButton.className = `letter-button ${newColor}`;
-                if (keyboardButton.classList.contains('wide-button')) {
-                    keyboardButton.classList.add('wide-button');
+                setKeyboardButtonColor(keyboardButton, newColor);
+            }
+        }
+    }
+
+    function updateKeyboardColorFromGrid(letter) {
+        const gridCells = document.querySelectorAll('#guessGrid .letter');
+        let highestColor = '';
+
+        gridCells.forEach(cell => {
+            if (cell.textContent === letter) {
+                const cellColor = cell.dataset.color || '';
+                if (colorHierarchy[cellColor] > colorHierarchy[highestColor]) {
+                    highestColor = cellColor;
                 }
             }
+        });
+
+        const keyboardButton = document.querySelector(`.keyboard button[data-key="${letter}"]`);
+        if (keyboardButton) {
+            setKeyboardButtonColor(keyboardButton, highestColor);
+        }
+    }
+
+    function getKeyboardButtonColor(button) {
+        return button.className.split(' ').find(c => colorHierarchy.hasOwnProperty(c)) || '';
+    }
+
+    function setKeyboardButtonColor(button, color) {
+        button.className = `letter-button ${color}`;
+        if (button.classList.contains('wide-button')) {
+            button.classList.add('wide-button');
         }
     }
 

@@ -177,19 +177,46 @@ document.addEventListener('DOMContentLoaded', () => {
         cell.dataset.color = colors[nextColorIndex];
         cell.className = 'letter guessed ' + colors[nextColorIndex];
 
-        updateKeyboardColor(cell.textContent, colors[nextColorIndex]);
+        updateKeyboardColorFromGrid(cell.textContent);
     }
 
     function updateKeyboardColor(letter, newColor) {
         const keyboardButton = document.querySelector(`.keyboard button[data-key="${letter}"]`);
         if (keyboardButton) {
-            const currentColor = keyboardButton.className.split(' ').find(c => colorHierarchy.hasOwnProperty(c)) || '';
+            const currentColor = getKeyboardButtonColor(keyboardButton);
             if (colorHierarchy[newColor] > colorHierarchy[currentColor]) {
-                keyboardButton.className = `letter-button ${newColor}`;
-                if (keyboardButton.classList.contains('wide-button')) {
-                    keyboardButton.classList.add('wide-button');
+                setKeyboardButtonColor(keyboardButton, newColor);
+            }
+        }
+    }
+
+    function updateKeyboardColorFromGrid(letter) {
+        const gridCells = document.querySelectorAll('#guessGrid .letter');
+        let highestColor = '';
+
+        gridCells.forEach(cell => {
+            if (cell.textContent === letter) {
+                const cellColor = cell.dataset.color || '';
+                if (colorHierarchy[cellColor] > colorHierarchy[highestColor]) {
+                    highestColor = cellColor;
                 }
             }
+        });
+
+        const keyboardButton = document.querySelector(`.keyboard button[data-key="${letter}"]`);
+        if (keyboardButton) {
+            setKeyboardButtonColor(keyboardButton, highestColor);
+        }
+    }
+
+    function getKeyboardButtonColor(button) {
+        return button.className.split(' ').find(c => colorHierarchy.hasOwnProperty(c)) || '';
+    }
+
+    function setKeyboardButtonColor(button, color) {
+        button.className = `letter-button ${color}`;
+        if (button.classList.contains('wide-button')) {
+            button.classList.add('wide-button');
         }
     }
 
