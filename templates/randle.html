@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Randle</title>
     <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
 </head>
 <body>
     <div id="game" class="full-screen">
@@ -13,9 +14,8 @@
             <div class="header-buttons">
                 <button id="rulesButton">Rules</button>
                 <a href="/" class="nav-button">Play Hardle</a>
-                <a href="https://www.buymeacoffee.com/jameswhitford" target="_blank" class="coffee-button">☕️</a>
+                <a href="https://www.buymeacoffee.com/yourname" target="_blank" class="coffee-button">☕️</a>
             </div>
-            <button id="helpButton">?</button>
         </header>
 
         <div class="game-container">
@@ -116,6 +116,22 @@
             </div>
         </div>
     </div>
+
+    <div id="rulesModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Randle Rules</h2>
+            <p>Guess a randomly selected 4-letter word in 8 tries. Each guess must be a valid 4-letter word.</p>
+            <p>After each guess, the number of letters in common with the target word will be displayed.</p>
+            <p>You can click on the letters to mark them as:</p>
+            <ul>
+                <li>Orange: Letter is in the word but in the wrong position</li>
+                <li>Red: Letter is not in the word</li>
+                <li>Green: Letter is in the correct position</li>
+            </ul>
+        </div>
+    </div>
+
     <script type="module" src="/static/js/randle.js"></script>
 </body>
 </html>

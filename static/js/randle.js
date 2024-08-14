@@ -1,7 +1,8 @@
 import { words } from './words.js';
 
 function getRandomWord(words) {
-    return words[Math.floor(Math.random() * words.length)].toUpperCase();
+    const rng = new Math.seedrandom();
+    return words[Math.floor(rng() * words.length)].toUpperCase();
 }
 
 let currentWord;
@@ -31,7 +32,7 @@ function initializeGame() {
 
     // Reset keyboard colors
     document.querySelectorAll('.keyboard button').forEach(button => {
-        button.className = button.className.includes('wide-button') ? 'wide-button' : '';
+        button.className = button.classList.contains('wide-button') ? 'wide-button' : '';
     });
 
     console.log("New word:", currentWord); // For debugging
@@ -42,10 +43,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const keyboard = document.querySelector('.keyboard');
     const guessGrid = document.getElementById('guessGrid');
+    const rulesButton = document.getElementById('rulesButton');
+    const rulesModal = document.getElementById('rulesModal');
+    const closeButton = document.querySelector('.close');
 
     keyboard.addEventListener('click', handleKeyboardClick);
     document.addEventListener('keydown', handleKeyPress);
     guessGrid.addEventListener('click', handleGridClick);
+    rulesButton.addEventListener('click', openRulesModal);
+    closeButton.addEventListener('click', closeRulesModal);
+    window.addEventListener('click', closeModalOnOutsideClick);
 
     function handleKeyboardClick(e) {
         if (e.target.matches('button')) {
@@ -148,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateKeyboardColor(letter, color) {
         const keyboardButton = document.querySelector(`.keyboard button[data-key="${letter}"]`);
         if (keyboardButton) {
-            keyboardButton.className = color ? color : '';
+            keyboardButton.className = color ? `letter-button ${color}` : 'letter-button';
             if (keyboardButton.classList.contains('wide-button')) {
                 keyboardButton.classList.add('wide-button');
             }
@@ -169,5 +176,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         return count;
+    }
+
+    function openRulesModal() {
+        rulesModal.style.display = 'block';
+    }
+
+    function closeRulesModal() {
+        rulesModal.style.display = 'none';
+    }
+
+    function closeModalOnOutsideClick(event) {
+        if (event.target === rulesModal) {
+            rulesModal.style.display = 'none';
+        }
     }
 });

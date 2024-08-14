@@ -17,10 +17,16 @@ const colors = ['', 'orange', 'red', 'green'];
 document.addEventListener('DOMContentLoaded', () => {
   const keyboard = document.querySelector('.keyboard');
   const guessGrid = document.getElementById('guessGrid');
+  const rulesButton = document.getElementById('rulesButton');
+  const rulesModal = document.getElementById('rulesModal');
+  const closeButton = document.querySelector('.close');
 
   keyboard.addEventListener('click', handleKeyboardClick);
   document.addEventListener('keydown', handleKeyPress);
   guessGrid.addEventListener('click', handleGridClick);
+  rulesButton.addEventListener('click', openRulesModal);
+  closeButton.addEventListener('click', closeRulesModal);
+  window.addEventListener('click', closeModalOnOutsideClick);
 
   function handleKeyboardClick(e) {
     if (e.target.matches('button')) {
@@ -137,6 +143,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     return count;
+  }
+
+  function openRulesModal() {
+    rulesModal.style.display = 'block';
+  }
+
+  function closeRulesModal() {
+    rulesModal.style.display = 'none';
+  }
+
+  function closeModalOnOutsideClick(event) {
+    if (event.target === rulesModal) {
+      rulesModal.style.display = 'none';
+    }
   }
 
   console.log("Today's word (for debugging):", dailyWord);
