@@ -26,8 +26,10 @@ function initializeGame() {
         row.querySelectorAll('.letter').forEach(cell => {
             cell.textContent = '';
             cell.className = 'letter';
+            cell.dataset.color = ''; // Reset the color data attribute
         });
         row.querySelector('.score').textContent = '';
+        row.classList.remove('correct'); // Remove the 'correct' class from rows
     });
 
     // Reset keyboard colors
