@@ -23,6 +23,7 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  padding: 0 10px;
 }
 
 .header-buttons {
@@ -216,6 +217,10 @@ h1 {
 
 /* Responsive styles */
 @media (min-width: 768px) {
+  .header-container {
+    padding: 0 10px;  /* Increased padding for larger screens */
+  }
+
   h1 {
     font-size: 32px;
   }
