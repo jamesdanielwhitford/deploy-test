@@ -119,18 +119,20 @@
 
     <div id="rulesModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Randle Rules</h2>
-            <p>Guess a randomly selected 4-letter word in 8 tries. Each guess must be a valid 4-letter word.</p>
-            <p>After each guess, the number of letters in common with the target word will be displayed.</p>
-            <p>You can click on the letters to mark them as:</p>
-            <ul>
-                <li>Orange: Letter is in the word but in the wrong position</li>
-                <li>Red: Letter is not in the word</li>
-                <li>Green: Letter is in the correct position</li>
-            </ul>
+          <span class="close">&times;</span>
+          <h2>Randle Rules</h2>
+          <p>Guess a randomly selected 4-letter word in 8 tries. Each guess must be a valid 4-letter word.</p>
+          <p>After each guess, a score (0-4) will be displayed, indicating how many letters from your guess are in the target word, regardless of position.</p>
+          <p>You can click on the letters to mark them as:</p>
+          <ul>
+            <li>Orange: Letter could potentially be in the word</li>
+            <li>Green: Letter is definitely in the word (not necessarily in that position)</li>
+            <li>Red: Automatically applied to all letters in a guess that scores 0</li>
+          </ul>
+          <p>Important: The game does not automatically indicate if a letter is in the correct position. Use the score and your deduction skills to solve the puzzle!</p>
+          <p>A new random word is selected for each game, so you can play as many times as you like!</p>
         </div>
-    </div>
+      </div>
 
     <script type="module" src="/static/js/randle.js"></script>
 </body>
