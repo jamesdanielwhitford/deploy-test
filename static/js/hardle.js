@@ -98,6 +98,91 @@ document.addEventListener('DOMContentLoaded', () => {
         updateGrid();
     }
 
+    function showGameEndModal(message, attempts) {
+        const modal = document.createElement('div');
+        modal.style.position = 'fixed';
+        modal.style.left = '0';
+        modal.style.top = '0';
+        modal.style.width = '100%';
+        modal.style.height = '100%';
+        modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+        modal.style.display = 'flex';
+        modal.style.justifyContent = 'center';
+        modal.style.alignItems = 'center';
+    
+        const content = document.createElement('div');
+        content.style.backgroundColor = 'white';
+        content.style.padding = '20px';
+        content.style.borderRadius = '5px';
+        content.style.textAlign = 'center';
+        content.style.maxWidth = '90%';
+        content.style.width = '400px';
+    
+        const text = document.createElement('p');
+        text.textContent = message;
+        text.style.fontSize = '18px';
+        text.style.marginBottom = '20px';
+        content.appendChild(text);
+    
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.display = 'flex';
+        buttonContainer.style.flexDirection = 'column';
+        buttonContainer.style.alignItems = 'center';
+        buttonContainer.style.gap = '10px';
+    
+        const createButton = (text, onClick, className) => {
+            const button = document.createElement('button');
+            button.textContent = text;
+            button.onclick = onClick;
+            button.className = className;
+            button.style.width = '100%';
+            button.style.maxWidth = '250px';
+            return button;
+        };
+    
+        const closeModal = () => document.body.removeChild(modal);
+    
+        const playRandleButton = createButton('Play Randle', () => {
+            closeModal();
+            window.location.href = '/randle';
+        }, 'nav-button');
+    
+        const coffeeButton = createButton('☕️ Buy Me a Coffee', () => {
+            window.open('https://www.buymeacoffee.com/jamesdanielwhitford', '_blank');
+        }, 'nav-button');
+    
+        const shareButton = createButton('Share Score', () => {
+            const shareText = `I solved today's Hardle in ${attempts} attempts! Can you beat that? #Hardle`;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Hardle Score',
+                    text: shareText,
+                    url: window.location.href,
+                }).catch(console.error);
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                const tempInput = document.createElement('input');
+                document.body.appendChild(tempInput);
+                tempInput.value = shareText;
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                alert('Score copied to clipboard!');
+            }
+        }, 'nav-button');
+    
+        const closeButton = createButton('Close', closeModal, 'nav-button');
+    
+        buttonContainer.appendChild(playRandleButton);
+        buttonContainer.appendChild(coffeeButton);
+        buttonContainer.appendChild(shareButton);
+        buttonContainer.appendChild(closeButton);
+    
+        content.appendChild(buttonContainer);
+        modal.appendChild(content);
+        document.body.appendChild(modal);
+    }
+
     function submitGuess() {
         const row = guessGrid.children[8 - guessesRemaining];
         const letterCells = row.querySelectorAll('.letter');
@@ -144,12 +229,12 @@ document.addEventListener('DOMContentLoaded', () => {
             gameOver = true;
             row.classList.add('correct');
             setTimeout(() => {
-                alert(`Congratulations! You guessed the word in ${9 - guessesRemaining} tries!`);
+                showGameEndModal(`Congratulations! You guessed the word in ${8 - guessesRemaining} tries!`, 8 - guessesRemaining);
             }, 300);
         } else if (guessesRemaining === 0) {
             gameOver = true;
             setTimeout(() => {
-                alert(`Game over! The word was ${dailyWord}`);
+                showGameEndModal(`Game over! The word was ${dailyWord}`, 8);
             }, 300);
         }
     
