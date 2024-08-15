@@ -3,14 +3,14 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0;
+  background-color: white;
 }
 
 /* Full-screen game container */
 #game.full-screen {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  max-height: 100vh;
   width: 100%;
   box-sizing: border-box;
   padding: 10px; /* Reduced padding from 20px */
@@ -43,7 +43,7 @@ h1 {
   align-items: center;
   flex-grow: 1;
   justify-content: flex-start; /* Changed from center to push content to the top */
-  padding-top: 40px; /* Added some padding at the top */
+  padding-top: 5px; /* Added some padding at the top */
 }
 
 /* Guess grid styles */
