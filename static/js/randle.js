@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cell.classList.add('guessed');
     
             let cellColor;
-            if (currentGuess[i] === dailyWord[i]) {
+            if (currentGuess[i] === currentWord[i]) {
                 // New code: Letter is in the correct position
                 cellColor = 'green';
             } else if (correctLetterCount === 0) {
