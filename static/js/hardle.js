@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 'nav-button');
     
         const coffeeButton = createButton('☕️ Buy Me a Coffee', () => {
-            window.open('https://www.buymeacoffee.com/jamesdanielwhitford', '_blank');
+            window.open('https://www.buymeacoffee.com/jameswhitford', '_blank');
         }, 'nav-button');
     
         const shareButton = createButton('Share Score', () => {
