@@ -3,23 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Randle</title>
+    <title>Randle!</title>
     <link rel="stylesheet" href="/static/css/styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
 </head>
 <body>
     <div id="game" class="full-screen">
-        <header class="header-container">
+        <div class="header-container">
             <h1>Randle!</h1>
             <div class="header-buttons">
                 <button id="rulesButton">Rules</button>
                 <a href="/" class="nav-button">Play Hardle</a>
-                <a href="https://www.buymeacoffee.com/jameswhitford" target="_blank" class="coffee-button">☕️</a>
+                <a href="https://www.buymeacoffee.com/jameswhitford" class="coffee-button" target="_blank">☕️</a>
             </div>
-        </header>
+        </div>
 
         <div class="game-container">
             <div id="guessGrid">
+                <div class="guess-row">
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="score"></div>
+                </div>
+                <div class="guess-row">
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="letter"></div>
+                    <div class="score"></div>
+                </div>
                 <div class="guess-row">
                     <div class="letter"></div>
                     <div class="letter"></div>
@@ -119,21 +132,23 @@
 
     <div id="rulesModal" class="modal">
         <div class="modal-content">
-          <span class="close">&times;</span>
-          <h2>Randle Rules</h2>
-          <p>Guess a randomly selected 4-letter word in 8 tries. <br/><br/>Each guess must be a valid 4-letter word.</p>
-          <p>After each guess, a score (0-4) will be displayed, indicating how many letters from your guess are in the target word, regardless of position.</p>
-          <p>You can click on the letters to mark them as:</p>
-          <ul>
-            <li>Orange: Letter could potentially be in the word</li>
-            <li>Green: Letter is definitely in the word (not necessarily in that position)</li>
-            <li>Red: Automatically applied to all letters in a guess that scores 0</li>
-          </ul>
-          <p>Important: The game does not automatically indicate if a letter is in the correct position. Use the score and your deduction skills to solve the puzzle!</p>
-          <p>A new random word is selected for each game, so you can play as many times as you like!</p>
+            <span class="close">&times;</span>
+            <h2>Randle Rules</h2>
+            <p>Guess a randomly selected 4-letter word in 10 tries.</p>
+            <p>Each guess must be a valid 4-letter word.</p>
+            <p>After each guess, a score (0-4) will be displayed, indicating how many letters from your guess are in the target word, regardless of position.</p>
+            <p>You can click on the letters to mark them as:</p>
+            <ul>
+                <li>Orange: Letter could potentially be in the word</li>
+                <li>Green: Letter is definitely in the word (not necessarily in that position)</li>
+                <li>Red: Automatically applied to all letters in a guess that scores 0</li>
+            </ul>
+            <p>Important: The game does not automatically indicate if a letter is in the correct position. Use the score and your deduction skills to solve the puzzle!</p>
+            <p>A new random word is selected for each game, so you can play as many times as you like!</p>
         </div>
-      </div>
+    </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
     <script type="module" src="/static/js/randle.js"></script>
 </body>
 </html>

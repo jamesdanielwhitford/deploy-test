@@ -16,7 +16,7 @@ const colorHierarchy = { 'green': 3, 'orange': 2, 'red': 1, '': 0 };
 
 function initializeGame() {
     currentWord = getRandomWord(words);
-    guessesRemaining = 8;
+    guessesRemaining = 10;
     currentGuess = '';
     guessHistory = [];
     gameOver = false;
@@ -27,10 +27,10 @@ function initializeGame() {
         row.querySelectorAll('.letter').forEach(cell => {
             cell.textContent = '';
             cell.className = 'letter';
-            cell.dataset.color = ''; // Reset the color data attribute
+            cell.dataset.color = '';
         });
         row.querySelector('.score').textContent = '';
-        row.classList.remove('correct'); // Remove the 'correct' class from rows
+        row.classList.remove('correct');
     });
 
     // Reset keyboard colors
@@ -189,7 +189,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function submitGuess() {
-        const row = guessGrid.children[8 - guessesRemaining];
+        if (guessesRemaining <= 0) return; // Prevent submitting after all guesses are used
+
+        const row = guessGrid.children[10 - guessesRemaining];
         const letterCells = row.querySelectorAll('.letter');
         const scoreCell = row.querySelector('.score');
     
@@ -203,10 +205,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
             let cellColor;
             if (correctLetterCount === 0) {
-                // If score is 0, turn all tiles red
                 cellColor = 'red';
             } else if (currentGuess !== currentWord) {
-                // Check if this letter was part of a previous zero-score guess
                 const wasInZeroScoreGuess = guessHistory.some(guess => 
                     guess.includes(currentGuess[i]) && 
                     getCorrectLetterCount(guess, currentWord) === 0
@@ -218,7 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     cellColor = 'orange';
                 }
             } else {
-                // Perfect match
                 cellColor = 'green';
             }
     
@@ -234,12 +233,12 @@ document.addEventListener('DOMContentLoaded', () => {
             gameOver = true;
             row.classList.add('correct');
             setTimeout(() => {
-                showGameEndModal(`Congratulations! You guessed the word in ${9 - guessesRemaining} tries!`, initializeGame);
+                showGameEndModal(`Congratulations! You guessed the word in ${11 - guessesRemaining} tries!`, 11 - guessesRemaining);
             }, 300);
         } else if (guessesRemaining === 0) {
             gameOver = true;
             setTimeout(() => {
-                showGameEndModal(`Game over! The word was ${currentWord}`, initializeGame);
+                showGameEndModal(`Game over! The word was ${currentWord}`, 10);
             }, 300);
         }
     
@@ -247,7 +246,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateGrid() {
-        const row = guessGrid.children[8 - guessesRemaining];
+        if (guessesRemaining <= 0) return; // Prevent updating the grid after all guesses are used
+
+        const row = guessGrid.children[10 - guessesRemaining];
         const letterCells = row.querySelectorAll('.letter');
         for (let i = 0; i < 4; i++) {
             const cell = letterCells[i];
