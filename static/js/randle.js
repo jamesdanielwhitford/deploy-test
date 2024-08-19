@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gameOver = true;
             row.classList.add('correct');
             setTimeout(() => {
-                showGameEndModal(`Congratulations! You guessed the word in ${9 - guessesRemaining} tries!`, initializeGame);
+                showGameEndModal(`Congratulations! You guessed the word in ${9 - guessesRemaining} tries!`, 9 - guessesRemaining);
             }, 300);
         } else if (guessesRemaining === 0) {
             gameOver = true;
