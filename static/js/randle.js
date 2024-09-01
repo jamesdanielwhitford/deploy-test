@@ -156,7 +156,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 'nav-button');
     
         const shareButton = createButton('Share Score', () => {
-            const shareText = `I solved Randle in ${attempts} attempts! Can you beat that? #Randle`;
+            let shareText;
+            if (gameOver && currentGuess === currentWord) {
+                shareText = `I solved Randle in ${attempts} attempts! Can you beat that? #Randle`;
+            } else {
+                shareText = `I couldn't solve this Randle. Can you do better? #Randle`;
+            }
             if (navigator.share) {
                 navigator.share({
                     title: 'My Randle Score',
@@ -239,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (guessesRemaining === 0) {
             gameOver = true;
             setTimeout(() => {
-                showGameEndModal(`Game over! The word was ${currentWord}`, initializeGame);
+                showGameEndModal(`Game over! The word was ${currentWord}`, 8);
             }, 300);
         }
     

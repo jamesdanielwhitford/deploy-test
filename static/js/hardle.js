@@ -152,7 +152,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 'nav-button');
     
         const shareButton = createButton('Share Score', () => {
-            const shareText = `I solved today's Hardle in ${attempts} attempts! Can you beat that? #Hardle`;
+            let shareText;
+            if (gameOver && currentGuess === dailyWord) {
+                shareText = `I solved today's Hardle in ${attempts} attempts! Can you beat that? #Hardle`;
+            } else {
+                shareText = `I couldn't solve today's Hardle. Can you do better? #Hardle`;
+            }
             if (navigator.share) {
                 navigator.share({
                     title: 'My Hardle Score',
@@ -229,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gameOver = true;
             row.classList.add('correct');
             setTimeout(() => {
-                showGameEndModal(`Congratulations! You guessed the word in ${8 - guessesRemaining} tries!`, 8 - guessesRemaining);
+                showGameEndModal(`Congratulations! You guessed the word in ${9 - guessesRemaining} tries!`, 9 - guessesRemaining);
             }, 300);
         } else if (guessesRemaining === 0) {
             gameOver = true;
