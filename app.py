@@ -4,7 +4,7 @@ from flask import Flask, render_template, send_from_directory
 app = Flask(__name__)
 
 # Get the current version from an environment variable or a file
-VERSION = os.environ.get('APP_VERSION', '1.0.1')
+VERSION = os.environ.get('APP_VERSION', '1.0.2')
 
 @app.after_request
 def add_header(response):
