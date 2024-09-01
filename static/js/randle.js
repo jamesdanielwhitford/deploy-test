@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
         const shareButton = createButton('Share Score', () => {
             let shareText;
-            if (gameOver && currentGuess === currentWord) {
+            if (gameWon) {
                 shareText = `I solved Randle in ${attempts} attempts! Can you beat that? #Randle`;
             } else {
                 shareText = `I couldn't solve this Randle. Can you do better? #Randle`;
@@ -235,12 +235,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
         if (currentGuess === currentWord) {
             gameOver = true;
+            gameWon = true; 
             row.classList.add('correct');
             setTimeout(() => {
-                showGameEndModal(`Congratulations! You guessed the word in ${9 - guessesRemaining} tries!`, 9 - guessesRemaining);
+                showGameEndModal(`Congratulations! You guessed the word in ${8 - guessesRemaining} tries!`, 8 - guessesRemaining);
             }, 300);
         } else if (guessesRemaining === 0) {
             gameOver = true;
+            gameWon = false; 
             setTimeout(() => {
                 showGameEndModal(`Game over! The word was ${currentWord}`, 8);
             }, 300);

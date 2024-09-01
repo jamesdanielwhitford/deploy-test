@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
         const shareButton = createButton('Share Score', () => {
             let shareText;
-            if (gameOver && currentGuess === dailyWord) {
+            if (gameWon) {
                 shareText = `I solved today's Hardle in ${attempts} attempts! Can you beat that? #Hardle`;
             } else {
                 shareText = `I couldn't solve today's Hardle. Can you do better? #Hardle`;
@@ -232,12 +232,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
         if (currentGuess === dailyWord) {
             gameOver = true;
+            gameWon = true; 
             row.classList.add('correct');
             setTimeout(() => {
-                showGameEndModal(`Congratulations! You guessed the word in ${9 - guessesRemaining} tries!`, 9 - guessesRemaining);
+                showGameEndModal(`Congratulations! You guessed the word in ${8 - guessesRemaining} tries!`, 8 - guessesRemaining);
             }, 300);
         } else if (guessesRemaining === 0) {
             gameOver = true;
+            gameWon = false; 
             setTimeout(() => {
                 showGameEndModal(`Game over! The word was ${dailyWord}`, 8);
             }, 300);
