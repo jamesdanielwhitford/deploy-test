@@ -134,6 +134,6 @@
         </div>
       </div>
 
-    <script type="module" src="/static/js/randle.js"></script>
-</body>
+      <script src="{{ url_for('static', filename='js/randle.js') }}?v={{ version }}"></script>
+    </body>
 </html>
