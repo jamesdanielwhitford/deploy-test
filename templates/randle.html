@@ -133,7 +133,8 @@
           <p>A new random word is selected for each game, so you can play as many times as you like!</p>
         </div>
       </div>
-
+      
+      <script src="{{ url_for('static', filename='js/words.js') }}?v={{ version }}"></script>
       <script src="{{ url_for('static', filename='js/randle.js') }}?v={{ version }}"></script>
     </body>
 </html>

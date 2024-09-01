@@ -132,7 +132,8 @@
           <p>Important: The game does not automatically indicate if a letter is in the correct position. Use the score and your deduction skills to solve the puzzle!</p>
         </div>
       </div>
-
+      
+      <script src="{{ url_for('static', filename='js/words.js') }}?v={{ version }}"></script>
       <script src="{{ url_for('static', filename='js/hardle.js') }}?v={{ version }}"></script>
     </body>
 </html>

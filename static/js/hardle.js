@@ -1,4 +1,4 @@
-import { words } from './words.js';
+// import { words } from './words.js';
 
 function getDailyWord(words) {
   const seed = Math.floor(Date.now() / (24 * 60 * 60 * 1000));

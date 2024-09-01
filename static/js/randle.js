@@ -1,5 +1,3 @@
-import { words } from './words.js';
-
 function getRandomWord(words) {
     const rng = new Math.seedrandom();
     return words[Math.floor(rng() * words.length)].toUpperCase();

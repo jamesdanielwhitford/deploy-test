@@ -1,5 +1,5 @@
 // Define the possible words to be guessed
-export const words = [
+const words = [
   'that', 'what', 'have', 'your', 'know', 'with', 'just', 'here', 'they', 'like',
   'come', 'well', 'yeah', 'will', 'want', 'good', 'from', 'when', 'time', 'okay',
   'back', 'look', 'them', 'were', 'take', 'then', 'been', 'tell', 'some', 'need',
@@ -72,3 +72,5 @@ export const words = [
   'with', 'wood', 'word', 'wore', 'work', 'yard', 'yeah', 'year', 'your', 'zero',
   'zone'
 ];
+
+window.words = words;
