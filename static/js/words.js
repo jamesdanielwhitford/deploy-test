@@ -46,7 +46,7 @@ const words = [
   'late', 'lead', 'left', 'less', 'life', 'lift', 'like', 'line', 'link', 'list',
   'live', 'load', 'loan', 'lock', 'logo', 'long', 'look', 'lord', 'lose', 'loss',
   'lost', 'love', 'luck', 'made', 'mail', 'main', 'make', 'male', 'many', 'mark',
-  'mass', 'matt', 'meal', 'mean', 'meat', 'meet', 'menu', 'mere', 'mike', 'mile',
+  'mass', 'matt', 'meal', 'mean', 'meat', 'meet', 'menu', 'mere', 'mile',
   'milk', 'mill', 'mind', 'mine', 'miss', 'mode', 'mood', 'moon', 'more', 'most',
   'move', 'much', 'must', 'name', 'navy', 'near', 'neck', 'need', 'news', 'next',
   'nice', 'nick', 'nine', 'none', 'nose', 'note', 'okay', 'once', 'only', 'onto',
